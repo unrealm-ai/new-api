@@ -18,19 +18,21 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React from 'react';
-import { Layout, ImagePreview } from '@douyinfe/semi-ui';
-import PricingSidebar from './PricingSidebar';
+import { ImagePreview } from '@douyinfe/semi-ui';
+import PricingFilterBar from './PricingFilterBar';
 import PricingContent from './content/PricingContent';
 import ModelDetailSideSheet from '../modal/ModelDetailSideSheet';
 import { useModelPricingData } from '../../../../hooks/model-pricing/useModelPricingData';
 import { useIsMobile } from '../../../../hooks/common/useIsMobile';
+import { useTranslation } from 'react-i18next';
 
 const PricingPage = () => {
   const pricingData = useModelPricingData();
-  const { Sider, Content } = Layout;
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
   const [showRatio, setShowRatio] = React.useState(false);
   const [viewMode, setViewMode] = React.useState('card');
+
   const allProps = {
     ...pricingData,
     showRatio,
@@ -40,22 +42,31 @@ const PricingPage = () => {
   };
 
   return (
-    <div className='bg-white'>
-      <Layout className='pricing-layout'>
-        {!isMobile && (
-          <Sider className='pricing-scroll-hide pricing-sidebar'>
-            <PricingSidebar {...allProps} />
-          </Sider>
-        )}
+    <div className='pricing-page'>
+      {/* 页面标题区 */}
+      <div className='pricing-hero'>
+        <h1 className='pricing-hero-title'>
+          {t('模型定价')}
+        </h1>
+        <p className='pricing-hero-subtitle'>
+          {t('探索所有可用模型及其定价信息，选择最适合您需求的方案')}
+        </p>
+      </div>
 
-        <Content className='pricing-scroll-hide pricing-content'>
-          <PricingContent
-            {...allProps}
-            isMobile={isMobile}
-            sidebarProps={allProps}
-          />
-        </Content>
-      </Layout>
+      {/* 搜索 + 筛选 水平栏 */}
+      <PricingFilterBar
+        {...allProps}
+        isMobile={isMobile}
+      />
+
+      {/* 内容区域 */}
+      <div className='pricing-content-area'>
+        <PricingContent
+          {...allProps}
+          isMobile={isMobile}
+          sidebarProps={allProps}
+        />
+      </div>
 
       <ImagePreview
         src={pricingData.modalImageUrl}
@@ -73,7 +84,7 @@ const PricingPage = () => {
         siteDisplayType={pricingData.siteDisplayType}
         tokenUnit={pricingData.tokenUnit}
         displayPrice={pricingData.displayPrice}
-        showRatio={allProps.showRatio}
+        showRatio={showRatio}
         vendorsMap={pricingData.vendorsMap}
         endpointMap={pricingData.endpointMap}
         autoGroups={pricingData.autoGroups}

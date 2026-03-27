@@ -47,10 +47,10 @@ import { useIsMobile } from '../../../../../hooks/common/useIsMobile';
 
 const CARD_STYLES = {
   container:
-    'w-12 h-12 rounded-2xl flex items-center justify-center relative shadow-md',
+    'w-12 h-12 rounded-2xl flex items-center justify-center relative',
   icon: 'w-8 h-8 flex items-center justify-center',
-  selected: 'border-blue-500 bg-blue-50',
-  default: 'border-gray-200 hover:border-gray-300',
+  selected: 'pricing-card-selected',
+  default: 'pricing-card-default',
 };
 
 const PricingCardView = ({
@@ -235,7 +235,7 @@ const PricingCardView = ({
 
   return (
     <div className='px-2 pt-2'>
-      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
         {paginatedModels.map((model, index) => {
           const modelKey = getModelKey(model);
           const isSelected = selectedRowKeys.includes(modelKey);
@@ -253,7 +253,7 @@ const PricingCardView = ({
           return (
             <Card
               key={modelKey || index}
-              className={`!rounded-2xl transition-all duration-200 hover:shadow-lg border cursor-pointer ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
+              className={`pricing-model-card ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
               bodyStyle={{ height: '100%' }}
               onClick={() => openModelDetail && openModelDetail(model)}
             >
@@ -263,7 +263,7 @@ const PricingCardView = ({
                   <div className='flex items-start space-x-3 flex-1 min-w-0'>
                     {getModelIcon(model)}
                     <div className='flex-1 min-w-0'>
-                      <h3 className='text-lg font-bold text-gray-900 truncate'>
+                      <h3 className='text-lg font-bold truncate' style={{ color: 'var(--landing-text-0)' }}>
                         {model.model_name}
                       </h3>
                       <div className='flex flex-col gap-1 text-xs mt-1'>
@@ -317,7 +317,7 @@ const PricingCardView = ({
                   {showRatio && (
                     <div className='pt-3'>
                       <div className='flex items-center space-x-1 mb-2'>
-                        <span className='text-xs font-medium text-gray-700'>
+                        <span className='text-xs font-medium' style={{ color: 'var(--landing-text-1)' }}>
                           {t('倍率信息')}
                         </span>
                         <Tooltip
@@ -334,7 +334,7 @@ const PricingCardView = ({
                           />
                         </Tooltip>
                       </div>
-                      <div className='grid grid-cols-3 gap-2 text-xs text-gray-600'>
+                      <div className='grid grid-cols-3 gap-2 text-xs' style={{ color: 'var(--landing-text-2)' }}>
                         <div>
                           {t('模型')}:{' '}
                           {model.quota_type === 0 ? model.model_ratio : t('无')}

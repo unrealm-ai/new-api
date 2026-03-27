@@ -396,13 +396,13 @@ const RegisterForm = () => {
       <div className='flex flex-col items-center'>
         <div className='w-full max-w-md'>
           <div className='flex items-center justify-center mb-6 gap-2'>
-            <img src={logo} alt='Logo' className='h-10 rounded-full' />
+            <img src={logo} alt='Logo' className='h-9 w-9 rounded-xl object-contain' />
             <Title heading={3} className='!text-gray-800'>
               {systemName}
             </Title>
           </div>
 
-          <Card className='border-0 !rounded-2xl overflow-hidden'>
+          <div className='premium-card !rounded-2xl overflow-hidden'>
             <div className='flex justify-center pt-6 pb-2'>
               <Title heading={3} className='text-gray-800 dark:text-gray-200'>
                 {t('注 册')}
@@ -413,7 +413,7 @@ const RegisterForm = () => {
                 {status.wechat_login && (
                   <Button
                     theme='outline'
-                    className='w-full h-12 flex items-center justify-center !rounded-full border border-gray-200 hover:bg-gray-50 transition-colors'
+                    className='w-full h-12 flex items-center justify-center !rounded-xl !border-[var(--landing-border-strong)] hover:!border-[rgba(var(--landing-brand-rgb),0.3)] transition-colors'
                     type='tertiary'
                     icon={
                       <Icon svg={<WeChatIcon />} style={{ color: '#07C160' }} />
@@ -428,7 +428,7 @@ const RegisterForm = () => {
                 {status.github_oauth && (
                   <Button
                     theme='outline'
-                    className='w-full h-12 flex items-center justify-center !rounded-full border border-gray-200 hover:bg-gray-50 transition-colors'
+                    className='w-full h-12 flex items-center justify-center !rounded-xl !border-[var(--landing-border-strong)] hover:!border-[rgba(var(--landing-brand-rgb),0.3)] transition-colors'
                     type='tertiary'
                     icon={<IconGithubLogo size='large' />}
                     onClick={handleGitHubClick}
@@ -442,7 +442,7 @@ const RegisterForm = () => {
                 {status.discord_oauth && (
                   <Button
                     theme='outline'
-                    className='w-full h-12 flex items-center justify-center !rounded-full border border-gray-200 hover:bg-gray-50 transition-colors'
+                    className='w-full h-12 flex items-center justify-center !rounded-xl !border-[var(--landing-border-strong)] hover:!border-[rgba(var(--landing-brand-rgb),0.3)] transition-colors'
                     type='tertiary'
                     icon={
                       <SiDiscord
@@ -463,7 +463,7 @@ const RegisterForm = () => {
                 {status.oidc_enabled && (
                   <Button
                     theme='outline'
-                    className='w-full h-12 flex items-center justify-center !rounded-full border border-gray-200 hover:bg-gray-50 transition-colors'
+                    className='w-full h-12 flex items-center justify-center !rounded-xl !border-[var(--landing-border-strong)] hover:!border-[rgba(var(--landing-brand-rgb),0.3)] transition-colors'
                     type='tertiary'
                     icon={<OIDCIcon style={{ color: '#1877F2' }} />}
                     onClick={handleOIDCClick}
@@ -476,7 +476,7 @@ const RegisterForm = () => {
                 {status.linuxdo_oauth && (
                   <Button
                     theme='outline'
-                    className='w-full h-12 flex items-center justify-center !rounded-full border border-gray-200 hover:bg-gray-50 transition-colors'
+                    className='w-full h-12 flex items-center justify-center !rounded-xl !border-[var(--landing-border-strong)] hover:!border-[rgba(var(--landing-brand-rgb),0.3)] transition-colors'
                     type='tertiary'
                     icon={
                       <LinuxDoIcon
@@ -499,7 +499,7 @@ const RegisterForm = () => {
                     <Button
                       key={provider.slug}
                       theme='outline'
-                      className='w-full h-12 flex items-center justify-center !rounded-full border border-gray-200 hover:bg-gray-50 transition-colors'
+                      className='w-full h-12 flex items-center justify-center !rounded-xl !border-[var(--landing-border-strong)] hover:!border-[rgba(var(--landing-brand-rgb),0.3)] transition-colors'
                       type='tertiary'
                       icon={getOAuthProviderIcon(provider.icon || '', 20)}
                       onClick={() => handleCustomOAuthClick(provider)}
@@ -548,7 +548,7 @@ const RegisterForm = () => {
                 </Text>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     );
@@ -559,13 +559,13 @@ const RegisterForm = () => {
       <div className='flex flex-col items-center'>
         <div className='w-full max-w-md'>
           <div className='flex items-center justify-center mb-6 gap-2'>
-            <img src={logo} alt='Logo' className='h-10 rounded-full' />
+            <img src={logo} alt='Logo' className='h-9 w-9 rounded-xl object-contain' />
             <Title heading={3} className='!text-gray-800'>
               {systemName}
             </Title>
           </div>
 
-          <Card className='border-0 !rounded-2xl overflow-hidden'>
+          <div className='premium-card !rounded-2xl overflow-hidden'>
             <div className='flex justify-center pt-6 pb-2'>
               <Title heading={3} className='text-gray-800 dark:text-gray-200'>
                 {t('注 册')}
@@ -724,7 +724,7 @@ const RegisterForm = () => {
                 </Text>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     );
@@ -770,17 +770,26 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className='relative overflow-hidden bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
-      {/* 背景模糊晕染球 */}
+    <div
+      className='relative overflow-hidden flex items-center justify-center min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8'
+      style={{ backgroundColor: 'var(--landing-bg-0)' }}
+    >
+      {/* Background glow */}
       <div
-        className='blur-ball blur-ball-indigo'
-        style={{ top: '-80px', right: '-80px', transform: 'none' }}
+        className='absolute top-[-200px] left-[-100px] w-[500px] h-[500px] rounded-full pointer-events-none'
+        style={{
+          background: 'radial-gradient(circle, rgba(var(--landing-brand-rgb), 0.08), transparent 70%)',
+          filter: 'blur(80px)',
+        }}
       />
       <div
-        className='blur-ball blur-ball-teal'
-        style={{ top: '50%', left: '-120px' }}
+        className='absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] rounded-full pointer-events-none'
+        style={{
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.06), transparent 70%)',
+          filter: 'blur(80px)',
+        }}
       />
-      <div className='w-full max-w-sm mt-[60px]'>
+      <div className='relative z-10 w-full max-w-sm'>
         {showEmailRegister ||
         !hasOAuthRegisterOptions
           ? renderEmailRegisterForm()
