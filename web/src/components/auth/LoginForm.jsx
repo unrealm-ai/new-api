@@ -651,7 +651,7 @@ const LoginForm = () => {
                   type='primary'
                   className='w-full h-12 flex items-center justify-center !rounded-xl transition-colors'
                   icon={<IconMail size='large' />}
-                  style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', border: 'none' }}
+                  style={{ background: '#18181b', border: 'none' }}
                   onClick={handleEmailLoginClick}
                   loading={emailLoginLoading}
                 >

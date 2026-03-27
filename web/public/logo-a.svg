@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- 方案 A v2: 驻波弦 — 加粗线条，基线更可见 -->
+  <rect width="512" height="512" rx="108" fill="#18181b"/>
+
+  <!-- 静止基线 — 加粗 + 提高亮度 -->
+  <!-- 基线 — 微妙下弧，像一根自然垂下的弦 -->
+  <path
+    d="M 88 296 C 176 310, 336 310, 424 296"
+    stroke="#fafafa"
+    stroke-width="16"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <!-- 振动弦弧 — 加粗 -->
+  <path
+    d="M 88 296 C 160 296, 192 120, 256 120 C 320 120, 352 296, 424 296"
+    stroke="#fafafa"
+    stroke-width="30"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <!-- 两端固定锚点 — 加大 -->
+  <circle cx="88" cy="296" r="15" fill="#fafafa"/>
+  <circle cx="424" cy="296" r="15" fill="#fafafa"/>
+</svg>

@@ -999,7 +999,7 @@
     "多密钥渠道操作项目组": "Multi-key channel operation project group",
     "多密钥管理": "Multi-key management",
     "多种充值方式，安全便捷": "Multiple recharge methods, safe and convenient",
-    "大模型接口网关": "LLM API Gateway",
+    "大模型接口网关": "Every AI Model",
     "天": "day",
     "天前": "days ago",
     "失败": "Failed",
@@ -2364,7 +2364,7 @@
     "绘图任务记录": "Drawing task records",
     "绘图日志": "Drawing Logs",
     "绘图设置": "Drawing settings",
-    "统一的": "The Unified",
+    "统一的": "One API.",
     "统计Tokens": "Statistical Tokens",
     "统计已重置": "Statistics reset",
     "统计次数": "Statistical count",
@@ -3347,6 +3347,15 @@
     "输出价格：{{symbol}}{{price}} / 1M tokens": "Output Price: {{symbol}}{{price}} / 1M tokens",
     "输出价格：{{symbol}}{{total}} / 1M tokens": "Output Price: {{symbol}}{{total}} / 1M tokens",
     "例如：gpt-4.1-nano,regex:^claude-.*$,regex:^sora-.*$": "Example: gpt-4.1-nano,regex:^claude-.*$,regex:^sora-.*$",
-    "支持精确匹配；使用 regex: 开头可按正则匹配。": "Supports exact matching. Use a regex: prefix for regex matching."
+    "支持精确匹配；使用 regex: 开头可按正则匹配。": "Supports exact matching. Use a regex: prefix for regex matching.",
+    "一弦通万象": "One string. Every model.",
+    "一个接口": "One API.",
+    "连接所有 AI 模型": "Every AI model.",
+    "兼容 OpenAI 协议，毫秒级转发，企业级可靠。只需替换基址：": "OpenAI-compatible. Millisecond relay. Enterprise reliable. Just replace your base URL:",
+    "开始接入拓弦": "Get started with Chord",
+    "几分钟完成接入，一个接口调用所有 AI 模型": "Set up in minutes. One API to call every AI model.",
+    "模型与定价": "Models & Pricing",
+    "浏览所有可用模型及定价，找到最适合你的方案": "Browse all available models and pricing to find the right plan for you",
+    "近 14 天": "Last 14 days"
   }
 }

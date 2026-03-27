@@ -29,9 +29,9 @@
   --landing-text-3: #a1a1aa;
   --landing-border: rgba(0, 0, 0, 0.06);
   --landing-border-strong: rgba(0, 0, 0, 0.10);
-  --landing-brand: #6366f1;
-  --landing-brand-rgb: 99, 102, 241;
-  --landing-accent: #8b5cf6;
+  --landing-brand: #27272a;
+  --landing-brand-rgb: 39, 39, 42;
+  --landing-accent: #3f3f46;
   --landing-card-bg: #ffffff;
   --landing-card-border: rgba(0, 0, 0, 0.06);
   --landing-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -51,9 +51,9 @@ html.dark {
   --landing-text-3: #71717a;
   --landing-border: rgba(255, 255, 255, 0.08);
   --landing-border-strong: rgba(255, 255, 255, 0.12);
-  --landing-brand: #818cf8;
-  --landing-brand-rgb: 129, 140, 248;
-  --landing-accent: #a78bfa;
+  --landing-brand: #d4d4d8;
+  --landing-brand-rgb: 212, 212, 216;
+  --landing-accent: #a1a1aa;
   --landing-card-bg: #18181b;
   --landing-card-border: rgba(255, 255, 255, 0.06);
   --landing-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -78,14 +78,14 @@ body {
 /* ==================== Landing Page 专用样式 ==================== */
 /* 渐变文字 */
 .gradient-text {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+  background: linear-gradient(135deg, #18181b, #3f3f46, #52525b);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 html.dark .gradient-text {
-  background: linear-gradient(135deg, #818cf8, #a78bfa, #c084fc);
+  background: linear-gradient(135deg, #fafafa, #d4d4d8, #a1a1aa);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -119,18 +119,27 @@ html.dark .premium-card:hover {
 
 /* 渐变品牌按钮 */
 .btn-brand {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: #18181b;
   color: #ffffff;
   font-weight: 500;
   border: none;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-brand:hover {
-  background: linear-gradient(135deg, #818cf8, #a78bfa);
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+  background: #3f3f46;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
+}
+
+html.dark .btn-brand {
+  background: #fafafa;
+  color: #09090b;
+}
+
+html.dark .btn-brand:hover {
+  background: #d4d4d8;
 }
 
 /* 边框描边按钮 */
@@ -237,16 +246,16 @@ html.dark .hero-mesh-bg {
 
 .hero-grid-overlay {
   background-image:
-    linear-gradient(rgba(var(--landing-brand-rgb), 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--landing-brand-rgb), 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(var(--landing-brand-rgb, 39, 39, 42), 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--landing-brand-rgb, 39, 39, 42), 0.08) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 70% 50% at 50% 40%, black, transparent);
 }
 
 html.dark .hero-grid-overlay {
   background-image:
-    linear-gradient(rgba(var(--landing-brand-rgb), 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--landing-brand-rgb), 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(var(--landing-brand-rgb, 39, 39, 42), 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--landing-brand-rgb, 39, 39, 42), 0.12) 1px, transparent 1px);
 }
 
 .hero-orb {
@@ -313,14 +322,14 @@ html.dark .hero-orb-3 { background: rgba(6, 182, 212, 0.1); }
 }
 
 .hero-title-gradient {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+  background: linear-gradient(135deg, #18181b 0%, #3f3f46 50%, #52525b 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 html.dark .hero-title-gradient {
-  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%);
+  background: linear-gradient(135deg, #fafafa 0%, #d4d4d8 50%, #a1a1aa 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -443,16 +452,28 @@ html.dark .hero-terminal-header { background: #0d0d0f; }
   font-size: 15px;
   font-weight: 600;
   color: #fff;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: #18181b;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
 .hero-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  background: #3f3f46;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+html.dark .hero-btn-primary {
+  background: #fafafa;
+  color: #09090b;
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.1);
+}
+
+html.dark .hero-btn-primary:hover {
+  background: #d4d4d8;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
 }
 
 .hero-btn-secondary {
@@ -633,6 +654,29 @@ html.dark .hero-terminal-header { background: #0d0d0f; }
   font-size: 14px;
   color: var(--landing-text-3);
   font-weight: 500;
+}
+
+.stats-extra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.stats-extra-label {
+  font-size: 11px;
+  color: var(--landing-text-3);
+  font-weight: 400;
+}
+
+.stats-sparkline {
+  display: block;
+}
+
+.stats-uptime-bars {
+  display: flex;
+  justify-content: center;
 }
 
 /* --- Feature / Bento Grid --- */
@@ -1724,7 +1768,7 @@ html.dark .sbg-variant-green {
 }
 
 .blur-ball-indigo {
-  background: #6366f1;
+  background: #71717a;
   /* indigo-500 */
   top: 40px;
   left: 50%;
@@ -1911,7 +1955,7 @@ html.dark .with-pastel-balls::before {
 
 .pricing-search-input .semi-input-wrapper:focus-within {
   border-color: var(--landing-brand) !important;
-  box-shadow: 0 0 0 3px rgba(var(--landing-brand-rgb, 99, 102, 241), 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(var(--landing-brand-rgb, 39, 39, 42), 0.1) !important;
 }
 
 /* 操作按钮 */
@@ -2012,13 +2056,13 @@ html.dark .with-pastel-balls::before {
 }
 
 .pricing-filter-chip:hover {
-  border-color: rgba(var(--landing-brand-rgb, 99, 102, 241), 0.4);
-  background: rgba(var(--landing-brand-rgb, 99, 102, 241), 0.04);
+  border-color: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.4);
+  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.04);
 }
 
 .pricing-filter-chip.active {
   border-color: var(--landing-brand);
-  background: rgba(var(--landing-brand-rgb, 99, 102, 241), 0.08);
+  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.08);
   color: var(--landing-brand);
 }
 
@@ -2076,7 +2120,7 @@ html.dark .with-pastel-balls::before {
 
 .pricing-filter-reset:hover {
   color: var(--landing-brand);
-  background: rgba(var(--landing-brand-rgb, 99, 102, 241), 0.04);
+  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.04);
 }
 
 /* 结果计数 */
@@ -2117,12 +2161,12 @@ html.dark .with-pastel-balls::before {
 .pricing-model-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.12) !important;
-  border-color: rgba(var(--landing-brand-rgb, 99, 102, 241), 0.2) !important;
+  border-color: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.2) !important;
 }
 
 .pricing-card-selected {
-  border-color: rgba(var(--landing-brand-rgb, 99, 102, 241), 0.5) !important;
-  background: rgba(var(--landing-brand-rgb, 99, 102, 241), 0.04) !important;
+  border-color: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.5) !important;
+  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.04) !important;
 }
 
 .pricing-card-default {
@@ -2132,7 +2176,7 @@ html.dark .with-pastel-balls::before {
 /* 深色模式下的卡片 hover 增强 */
 html.dark .pricing-model-card:hover {
   box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.4),
-              0 0 0 1px rgba(var(--landing-brand-rgb, 99, 102, 241), 0.1) !important;
+              0 0 0 1px rgba(var(--landing-brand-rgb, 39, 39, 42), 0.1) !important;
 }
 
 html.dark .pricing-filter-popover {

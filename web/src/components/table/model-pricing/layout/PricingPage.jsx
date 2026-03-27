@@ -46,10 +46,10 @@ const PricingPage = () => {
       {/* 页面标题区 */}
       <div className='pricing-hero'>
         <h1 className='pricing-hero-title'>
-          {t('模型定价')}
+          {t('模型与定价')}
         </h1>
         <p className='pricing-hero-subtitle'>
-          {t('探索所有可用模型及其定价信息，选择最适合您需求的方案')}
+          {t('浏览所有可用模型及定价，找到最适合你的方案')}
         </p>
       </div>
 

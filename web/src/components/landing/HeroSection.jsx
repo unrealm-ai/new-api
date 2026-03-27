@@ -55,7 +55,7 @@ const HeroSection = ({
         {/* Status badge */}
         <div className='hero-badge animate-fade-in'>
           <span className='hero-badge-dot' />
-          <span>{t('统一 AI 模型网关')}</span>
+          <span>{t('一弦通万象')}</span>
           <ArrowRight size={14} style={{ opacity: 0.5 }} />
         </div>
 
@@ -63,14 +63,14 @@ const HeroSection = ({
         <h1
           className={`hero-title animate-fade-in-up ${isChinese ? 'tracking-wide' : ''}`}
         >
-          <span className='hero-title-line1'>{t('统一的')}</span>
+          <span className='hero-title-line1'>{t('一个接口')}</span>
           <br />
-          <span className='hero-title-gradient'>{t('大模型接口网关')}</span>
+          <span className='hero-title-gradient'>{t('连接所有 AI 模型')}</span>
         </h1>
 
         {/* Subtitle */}
         <p className='hero-subtitle animate-fade-in' style={{ animationDelay: '0.15s' }}>
-          {t('更好的价格，更好的稳定性，只需要将模型基址替换为：')}
+          {t('兼容 OpenAI 协议，毫秒级转发，企业级可靠。只需替换基址：')}
         </p>
 
         {/* Terminal-style API box */}
