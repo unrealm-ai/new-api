@@ -31,8 +31,10 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
       about: true,
     };
 
-    // 使用传入的配置或默认配置
-    const modules = headerNavModules || defaultModules;
+    // 合并默认配置与传入配置，确保新增模块有默认值
+    const modules = headerNavModules
+      ? { ...defaultModules, ...headerNavModules }
+      : defaultModules;
 
     const allLinks = [
       {

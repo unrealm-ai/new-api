@@ -41,6 +41,7 @@ export default function SettingsHeaderNavModules(props) {
   // 顶栏模块管理状态
   const [headerNavModules, setHeaderNavModules] = useState({
     home: true,
+    playground: true,
     console: true,
     pricing: {
       enabled: true,
@@ -81,6 +82,7 @@ export default function SettingsHeaderNavModules(props) {
   function resetHeaderNavModules() {
     const defaultModules = {
       home: true,
+      playground: true,
       console: true,
       pricing: {
         enabled: true,
@@ -142,11 +144,17 @@ export default function SettingsHeaderNavModules(props) {
           };
         }
 
+        // 向后兼容：旧配置缺少 playground 字段时默认开启
+        if (modules.playground === undefined) {
+          modules.playground = true;
+        }
+
         setHeaderNavModules(modules);
       } catch (error) {
         // 使用默认配置
         const defaultModules = {
           home: true,
+          playground: true,
           console: true,
           pricing: {
             enabled: true,
@@ -166,6 +174,11 @@ export default function SettingsHeaderNavModules(props) {
       key: 'home',
       title: t('首页'),
       description: t('用户主页，展示系统信息'),
+    },
+    {
+      key: 'playground',
+      title: t('立即体验'),
+      description: t('在线体验 AI 模型对话'),
     },
     {
       key: 'console',
