@@ -20,24 +20,24 @@
   --sidebar-current-width: var(--sidebar-width);
 
   /* ---- Premium Design Tokens (Light) ---- */
-  --landing-bg-0: #fafafa;
-  --landing-bg-1: #ffffff;
-  --landing-bg-2: #f4f4f5;
+  --landing-bg-0: #f0f0f2;
+  --landing-bg-1: #f8f8fa;
+  --landing-bg-2: #e8e8ec;
   --landing-text-0: #09090b;
   --landing-text-1: #3f3f46;
   --landing-text-2: #71717a;
   --landing-text-3: #a1a1aa;
-  --landing-border: rgba(0, 0, 0, 0.06);
-  --landing-border-strong: rgba(0, 0, 0, 0.10);
+  --landing-border: rgba(0, 0, 0, 0.08);
+  --landing-border-strong: rgba(0, 0, 0, 0.14);
   --landing-brand: #27272a;
   --landing-brand-rgb: 39, 39, 42;
   --landing-accent: #3f3f46;
   --landing-card-bg: #ffffff;
-  --landing-card-border: rgba(0, 0, 0, 0.06);
-  --landing-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --landing-glass-bg: rgba(255, 255, 255, 0.75);
-  --landing-glass-border: rgba(0, 0, 0, 0.06);
-  --landing-code-bg: #f4f4f5;
+  --landing-card-border: rgba(0, 0, 0, 0.08);
+  --landing-card-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  --landing-glass-bg: rgba(240, 240, 242, 0.8);
+  --landing-glass-border: rgba(0, 0, 0, 0.08);
+  --landing-code-bg: #e8e8ec;
 }
 
 html.dark {
@@ -246,16 +246,16 @@ html.dark .hero-mesh-bg {
 
 .hero-grid-overlay {
   background-image:
-    linear-gradient(rgba(var(--landing-brand-rgb, 39, 39, 42), 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--landing-brand-rgb, 39, 39, 42), 0.08) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 70% 50% at 50% 40%, black, transparent);
+    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent);
 }
 
 html.dark .hero-grid-overlay {
   background-image:
-    linear-gradient(rgba(var(--landing-brand-rgb, 39, 39, 42), 0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--landing-brand-rgb, 39, 39, 42), 0.12) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
 }
 
 .hero-orb {
@@ -338,10 +338,23 @@ html.dark .hero-title-gradient {
 .hero-subtitle {
   font-size: clamp(1rem, 2vw, 1.25rem);
   color: var(--landing-text-2);
-  max-width: 560px;
+  max-width: 600px;
   margin: 0 auto 40px;
   line-height: 1.6;
   animation-fill-mode: both;
+}
+
+.hero-typewriter-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  font-weight: 300;
+  color: var(--landing-brand);
+  animation: hero-cursor-blink 1s step-end infinite;
+}
+
+@keyframes hero-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 /* Terminal */

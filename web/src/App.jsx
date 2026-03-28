@@ -316,6 +316,10 @@ function App() {
           }
         />
         <Route
+          path='/playground'
+          element={<Playground />}
+        />
+        <Route
           path='/pricing'
           element={
             pricingRequireAuth ? (

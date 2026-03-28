@@ -3349,6 +3349,11 @@
     "例如：gpt-4.1-nano,regex:^claude-.*$,regex:^sora-.*$": "Example: gpt-4.1-nano,regex:^claude-.*$,regex:^sora-.*$",
     "支持精确匹配；使用 regex: 开头可按正则匹配。": "Supports exact matching. Use a regex: prefix for regex matching.",
     "一弦通万象": "One string. Every model.",
+    "AI 模型基础设施": "AI Model Infrastructure",
+    "立即体验": "Playground",
+    "模型在变": "Models change.",
+    "你的代码不变": "Your code doesn't.",
+    "40+ 供应商统一中继，智能路由，自动容错。替换 base_url 即接入：": "40+ providers, unified relay. Smart routing, auto-failover. Just replace your base_url:",
     "一个接口": "One API.",
     "连接所有 AI 模型": "Every AI model.",
     "兼容 OpenAI 协议，毫秒级转发，企业级可靠。只需替换基址：": "OpenAI-compatible. Millisecond relay. Enterprise reliable. Just replace your base URL:",
@@ -3356,6 +3361,11 @@
     "几分钟完成接入，一个接口调用所有 AI 模型": "Set up in minutes. One API to call every AI model.",
     "模型与定价": "Models & Pricing",
     "浏览所有可用模型及定价，找到最适合你的方案": "Browse all available models and pricing to find the right plan for you",
-    "近 14 天": "Last 14 days"
+    "近 14 天": "Last 14 days",
+    "一个端点聚合主流大模型，内置路由调度与故障自愈。接入只需一步：": "One endpoint for every major LLM. Built-in routing and self-healing. Get started in one step:",
+    "一个端点聚合主流大模型，内置路由调度与故障自愈": "One endpoint for all major LLMs, with built-in routing and self-healing",
+    "兼容 OpenAI 协议，迁移零成本，无需改动一行代码": "Fully OpenAI-compatible — zero migration cost, not a single line of code to change",
+    "智能负载均衡，自动故障转移，99.9% 服务可用性": "Smart load balancing, automatic failover, 99.9% service availability",
+    "按 Token 精确计费，多维度用量统计，成本一目了然": "Per-token billing, multi-dimensional usage analytics, costs at a glance"
   }
 }
