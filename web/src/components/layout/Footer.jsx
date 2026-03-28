@@ -164,21 +164,6 @@ const FooterBar = () => {
               </span>
             </div>
 
-            <div
-              className='text-sm'
-              style={{ color: 'var(--landing-text-3)' }}
-            >
-              <span>{t('设计与开发由')} </span>
-              <a
-                href='https://github.com/QuantumNous/new-api'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='font-medium hover:underline'
-                style={{ color: 'var(--landing-brand)' }}
-              >
-                New API
-              </a>
-            </div>
           </div>
         </div>
       </footer>
@@ -198,18 +183,6 @@ const FooterBar = () => {
             className='custom-footer'
             dangerouslySetInnerHTML={{ __html: footer }}
           ></div>
-          <div className='absolute bottom-2 right-4 text-xs opacity-70' style={{ color: 'var(--landing-text-3)' }}>
-            <span>{t('设计与开发由')} </span>
-            <a
-              href='https://github.com/QuantumNous/new-api'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='font-medium'
-              style={{ color: 'var(--landing-brand)' }}
-            >
-              New API
-            </a>
-          </div>
         </div>
       ) : (
         customFooter
