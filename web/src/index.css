@@ -245,17 +245,14 @@ html.dark .hero-mesh-bg {
 }
 
 .hero-grid-overlay {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-  background-size: 56px 56px;
+  /* 青花弦波 — 层叠水纹 + 孤舟 + 瓷点 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Cpath d='M0 150 C100 90,200 90,300 150 C400 210,500 210,600 150' fill='none' stroke='rgba(0,0,0,0.14)' stroke-width='2'/%3E%3Cpath d='M0 165 C100 105,200 105,300 165 C400 225,500 225,600 165' fill='none' stroke='rgba(0,0,0,0.1)' stroke-width='1.6'/%3E%3Cpath d='M0 180 C100 120,200 120,300 180 C400 240,500 240,600 180' fill='none' stroke='rgba(0,0,0,0.07)' stroke-width='1.2'/%3E%3Cpath d='M0 80 C100 40,200 40,300 80 C400 120,500 120,600 80' fill='none' stroke='rgba(0,0,0,0.09)' stroke-width='1.6'/%3E%3Cpath d='M0 95 C100 55,200 55,300 95 C400 135,500 135,600 95' fill='none' stroke='rgba(0,0,0,0.06)' stroke-width='1.2'/%3E%3Cpath d='M0 240 C100 210,200 210,300 240 C400 270,500 270,600 240' fill='none' stroke='rgba(0,0,0,0.06)' stroke-width='1.2'/%3E%3Cg transform='translate(280,138)'%3E%3Cpath d='M-18 0 Q0-12,18 0' fill='none' stroke='rgba(0,0,0,0.18)' stroke-width='1.8' stroke-linecap='round'/%3E%3Cline x1='0' y1='-1' x2='0' y2='-22' stroke='rgba(0,0,0,0.14)' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M0-22 Q10-12,2-2' fill='none' stroke='rgba(0,0,0,0.12)' stroke-width='1.2' stroke-linecap='round'/%3E%3C/g%3E%3Ccircle cx='120' cy='110' r='2.5' fill='rgba(0,0,0,0.08)'/%3E%3Ccircle cx='450' cy='130' r='3' fill='rgba(0,0,0,0.06)'/%3E%3Ccircle cx='380' cy='200' r='2' fill='rgba(0,0,0,0.07)'/%3E%3Ccircle cx='530' cy='70' r='2.5' fill='rgba(0,0,0,0.06)'/%3E%3Ccircle cx='70' cy='220' r='2' fill='rgba(0,0,0,0.06)'/%3E%3Ccircle cx='200' cy='50' r='1.8' fill='rgba(0,0,0,0.05)'/%3E%3Ccircle cx='500' cy='250' r='2.2' fill='rgba(0,0,0,0.05)'/%3E%3C/svg%3E");
+  background-size: 600px 300px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent);
 }
 
 html.dark .hero-grid-overlay {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Cpath d='M0 150 C100 90,200 90,300 150 C400 210,500 210,600 150' fill='none' stroke='rgba(255,255,255,0.14)' stroke-width='2'/%3E%3Cpath d='M0 165 C100 105,200 105,300 165 C400 225,500 225,600 165' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1.6'/%3E%3Cpath d='M0 180 C100 120,200 120,300 180 C400 240,500 240,600 180' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1.2'/%3E%3Cpath d='M0 80 C100 40,200 40,300 80 C400 120,500 120,600 80' fill='none' stroke='rgba(255,255,255,0.09)' stroke-width='1.6'/%3E%3Cpath d='M0 95 C100 55,200 55,300 95 C400 135,500 135,600 95' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1.2'/%3E%3Cpath d='M0 240 C100 210,200 210,300 240 C400 270,500 270,600 240' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1.2'/%3E%3Cg transform='translate(280,138)'%3E%3Cpath d='M-18 0 Q0-12,18 0' fill='none' stroke='rgba(255,255,255,0.18)' stroke-width='1.8' stroke-linecap='round'/%3E%3Cline x1='0' y1='-1' x2='0' y2='-22' stroke='rgba(255,255,255,0.14)' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M0-22 Q10-12,2-2' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='1.2' stroke-linecap='round'/%3E%3C/g%3E%3Ccircle cx='120' cy='110' r='2.5' fill='rgba(255,255,255,0.08)'/%3E%3Ccircle cx='450' cy='130' r='3' fill='rgba(255,255,255,0.06)'/%3E%3Ccircle cx='380' cy='200' r='2' fill='rgba(255,255,255,0.07)'/%3E%3Ccircle cx='530' cy='70' r='2.5' fill='rgba(255,255,255,0.06)'/%3E%3Ccircle cx='70' cy='220' r='2' fill='rgba(255,255,255,0.06)'/%3E%3Ccircle cx='200' cy='50' r='1.8' fill='rgba(255,255,255,0.05)'/%3E%3Ccircle cx='500' cy='250' r='2.2' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E");
 }
 
 .hero-orb {
