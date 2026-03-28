@@ -119,7 +119,7 @@ const UserArea = ({
           <Button
             theme='borderless'
             type='tertiary'
-            className='flex items-center gap-1.5 !p-1 !rounded-full hover:!bg-semi-color-fill-1 dark:hover:!bg-gray-700 !bg-semi-color-fill-0 dark:!bg-semi-color-fill-1 dark:hover:!bg-semi-color-fill-2'
+            className='flex items-center gap-1.5 !p-1 !rounded-md hover:!bg-semi-color-fill-1 dark:hover:!bg-gray-700 !bg-semi-color-fill-0 dark:!bg-semi-color-fill-1 dark:hover:!bg-semi-color-fill-2'
           >
             <Avatar
               size='extra-small'
@@ -150,7 +150,7 @@ const UserArea = ({
           <Button
             theme='borderless'
             type='tertiary'
-            className='flex items-center justify-center !rounded-full !px-4 !py-1.5 !text-sm !font-medium !text-[var(--landing-text-1)] hover:!text-[var(--landing-text-0)] hover:!bg-[var(--landing-border)] transition-all duration-200'
+            className='flex items-center justify-center !rounded-md !px-4 !py-1.5 !text-sm !font-medium !text-[var(--landing-text-1)] hover:!text-[var(--landing-text-0)] hover:!bg-[var(--landing-border)] transition-all duration-200'
           >
             {t('登录')}
           </Button>
@@ -158,7 +158,7 @@ const UserArea = ({
         {showRegisterButton && (
           <div className='hidden md:block'>
             <Link to='/register'>
-              <button className='btn-brand !rounded-full px-5 py-1.5 text-sm cursor-pointer'>
+              <button className='btn-brand !rounded-md px-5 py-1.5 text-sm cursor-pointer'>
                 {t('注册')}
               </button>
             </Link>

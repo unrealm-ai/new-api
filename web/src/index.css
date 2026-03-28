@@ -293,7 +293,7 @@ html.dark .hero-orb-3 { background: rgba(6, 182, 212, 0.1); }
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
   margin-bottom: 32px;
@@ -461,7 +461,7 @@ html.dark .hero-terminal-header { background: #0d0d0f; }
   align-items: center;
   gap: 8px;
   padding: 14px 32px;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-size: 15px;
   font-weight: 600;
   color: #fff;
@@ -494,7 +494,7 @@ html.dark .hero-btn-primary:hover {
   align-items: center;
   gap: 8px;
   padding: 14px 32px;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-size: 15px;
   font-weight: 600;
   color: var(--landing-text-0);
@@ -512,7 +512,7 @@ html.dark .hero-btn-primary:hover {
 .hero-btn-badge {
   font-size: 11px;
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: 4px;
   background: var(--landing-border);
   color: var(--landing-text-2);
 }
@@ -601,7 +601,7 @@ html.dark .hero-btn-primary:hover {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  border-radius: 10px;
+  border-radius: 6px;
   background: var(--landing-card-bg);
   border: 1px solid var(--landing-border);
   font-size: 13px;
@@ -1386,7 +1386,7 @@ code {
   min-width: 18px;
   height: 18px;
   padding: 0 6px;
-  border-radius: 9px;
+  border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -1973,7 +1973,7 @@ html.dark .with-pastel-balls::before {
 
 /* 操作按钮 */
 .pricing-action-btn {
-  border-radius: 10px !important;
+  border-radius: 6px !important;
   border-color: var(--landing-border) !important;
   color: var(--landing-text-1) !important;
   background: var(--landing-bg-1) !important;
@@ -1987,7 +1987,7 @@ html.dark .with-pastel-balls::before {
 /* 视图切换按钮组 */
 .pricing-view-toggle {
   display: flex;
-  border-radius: 10px;
+  border-radius: 6px;
   border: 1px solid var(--landing-border);
   overflow: hidden;
   background: var(--landing-bg-1);
@@ -2023,7 +2023,7 @@ html.dark .with-pastel-balls::before {
   min-width: 36px;
   height: 32px;
   padding: 0 10px;
-  border-radius: 10px;
+  border-radius: 6px;
   border: 1px solid var(--landing-border);
   background: var(--landing-bg-1);
   color: var(--landing-text-1);
@@ -2040,7 +2040,7 @@ html.dark .with-pastel-balls::before {
 
 /* 货币选择器 */
 .pricing-currency-select .semi-select {
-  border-radius: 10px !important;
+  border-radius: 6px !important;
   min-width: 80px;
 }
 
@@ -2058,7 +2058,7 @@ html.dark .with-pastel-balls::before {
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  border-radius: 20px;
+  border-radius: 6px;
   border: 1px solid var(--landing-border);
   background: var(--landing-bg-1);
   color: var(--landing-text-1);
@@ -2122,7 +2122,7 @@ html.dark .with-pastel-balls::before {
   align-items: center;
   gap: 4px;
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: 6px;
   border: 1px solid transparent;
   background: transparent;
   color: var(--landing-text-2);
@@ -2272,7 +2272,7 @@ html.dark .pricing-filter-popover {
 .semi-select,
 .semi-button,
 .semi-datepicker-range-input {
-  border-radius: 10px !important;
+  border-radius: 6px !important;
 }
 
 @keyframes slideInLeft {
