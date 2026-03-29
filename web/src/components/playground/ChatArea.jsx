@@ -17,8 +17,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 
-import React from 'react';
-import { Card, Chat, Typography, Button } from '@douyinfe/semi-ui';
+import React, { useMemo } from 'react';
+import { Card, Chat, Typography, Button, Banner } from '@douyinfe/semi-ui';
 import { MessageSquare, Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import CustomInputRender from './CustomInputRender';
@@ -91,6 +91,16 @@ const ChatArea = ({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Claude 系列模型限制提示 */}
+      {inputs.model && /claude/i.test(inputs.model) && (
+        <Banner
+          type='warning'
+          description={t('Claude 系列模型暂时仅支持在 Claude Code 中调用，不支持直接对话，我们在开发中。')}
+          closeIcon={null}
+          style={{ borderRadius: 0 }}
+        />
       )}
 
       {/* 聊天内容区域 */}
