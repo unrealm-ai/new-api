@@ -2294,3 +2294,268 @@ html.dark .pricing-filter-popover {
     opacity: 1;
   }
 }
+
+/* ── The ToChord Way — Bento Grid ──────────────────────────── */
+
+/* -- Theme tokens (light) -- */
+:root {
+  --tcw-bg: #f4f4f5;
+  --tcw-card-bg: #ffffff;
+  --tcw-card-bg-hover: #fafafa;
+  --tcw-card-border: rgba(0, 0, 0, 0.07);
+  --tcw-card-border-hover: rgba(0, 0, 0, 0.13);
+  --tcw-numeral: rgba(0, 0, 0, 0.03);
+  --tcw-numeral-hover: rgba(0, 0, 0, 0.05);
+  --tcw-index: #a1a1aa;
+  --tcw-title: #3f3f46;
+  --tcw-title-hover: #09090b;
+  --tcw-body: #71717a;
+  --tcw-body-hover: #52525b;
+  --tcw-heading: #09090b;
+  --tcw-sub: #a1a1aa;
+  --tcw-glow-color: rgba(245, 158, 11, 0.04);
+  --tcw-noise-opacity: 0.015;
+  --tcw-warning-bg: linear-gradient(135deg, rgba(245,158,11,0.04) 0%, #ffffff 60%);
+  --tcw-warning-bg-hover: linear-gradient(135deg, rgba(245,158,11,0.07) 0%, #fafafa 60%);
+  --tcw-warning-numeral: rgba(245, 158, 11, 0.06);
+  --tcw-warning-numeral-hover: rgba(245, 158, 11, 0.1);
+  --tcw-warning-border: rgba(245, 158, 11, 0.35);
+  --tcw-topline: linear-gradient(90deg, transparent 10%, rgba(245,158,11,0.3) 40%, rgba(245,158,11,0.3) 60%, transparent 90%);
+  --tcw-illus-stroke: rgba(0, 0, 0, 0.06);
+  --tcw-illus-fill: rgba(245, 158, 11, 0.06);
+}
+
+html.dark {
+  --tcw-bg: #08080a;
+  --tcw-card-bg: #111114;
+  --tcw-card-bg-hover: #161619;
+  --tcw-card-border: rgba(255, 255, 255, 0.05);
+  --tcw-card-border-hover: rgba(255, 255, 255, 0.1);
+  --tcw-numeral: rgba(255, 255, 255, 0.02);
+  --tcw-numeral-hover: rgba(255, 255, 255, 0.04);
+  --tcw-index: #27272a;
+  --tcw-title: #71717a;
+  --tcw-title-hover: #e4e4e7;
+  --tcw-body: #3f3f46;
+  --tcw-body-hover: #52525b;
+  --tcw-heading: #fafafa;
+  --tcw-sub: #3f3f46;
+  --tcw-glow-color: rgba(245, 158, 11, 0.045);
+  --tcw-noise-opacity: 0.025;
+  --tcw-warning-bg: linear-gradient(135deg, rgba(245,158,11,0.03) 0%, #111114 60%);
+  --tcw-warning-bg-hover: linear-gradient(135deg, rgba(245,158,11,0.05) 0%, #161619 60%);
+  --tcw-warning-numeral: rgba(245, 158, 11, 0.035);
+  --tcw-warning-numeral-hover: rgba(245, 158, 11, 0.06);
+  --tcw-warning-border: rgba(245, 158, 11, 0.5);
+  --tcw-topline: linear-gradient(90deg, transparent 10%, rgba(245,158,11,0.4) 40%, rgba(245,158,11,0.4) 60%, transparent 90%);
+  --tcw-illus-stroke: rgba(255, 255, 255, 0.04);
+  --tcw-illus-fill: rgba(245, 158, 11, 0.04);
+}
+
+.tcw-section {
+  background: var(--tcw-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Noise grain texture */
+.tcw-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: var(--tcw-noise-opacity);
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' fill='white'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Ambient glow */
+.tcw-glow {
+  position: absolute;
+  width: 50%;
+  height: 60%;
+  top: -10%;
+  left: 25%;
+  background: radial-gradient(ellipse, var(--tcw-glow-color) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Bento grid layout */
+.tcw-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 6px;
+}
+
+.tcw-grid--i   { grid-column: 1 / 3; grid-row: 1 / 3; }
+.tcw-grid--ii  { grid-column: 3 / 4; grid-row: 1 / 2; }
+.tcw-grid--iii { grid-column: 4 / 5; grid-row: 1 / 3; }
+.tcw-grid--iv  { grid-column: 3 / 4; grid-row: 2 / 3; }
+.tcw-grid--v   { grid-column: 1 / 3; grid-row: 3 / 4; }
+.tcw-grid--vi  { grid-column: 3 / 5; grid-row: 3 / 4; }
+
+@media (max-width: 768px) {
+  .tcw-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 4px;
+  }
+  .tcw-grid--i   { grid-column: 1 / 3; grid-row: auto; }
+  .tcw-grid--ii  { grid-column: 1 / 2; grid-row: auto; }
+  .tcw-grid--iii { grid-column: 2 / 3; grid-row: auto; }
+  .tcw-grid--iv  { grid-column: 1 / 2; grid-row: auto; }
+  .tcw-grid--v   { grid-column: 2 / 3; grid-row: auto; }
+  .tcw-grid--vi  { grid-column: 1 / 3; grid-row: auto; }
+}
+
+/* Card base */
+.tcw-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--tcw-card-bg);
+  border: 1px solid var(--tcw-card-border);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: default;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              background 0.4s ease;
+}
+
+.tcw-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--tcw-card-border-hover);
+  background: var(--tcw-card-bg-hover);
+}
+
+/* Card watermark numeral */
+.tcw-card__numeral {
+  position: absolute;
+  right: 12px;
+  bottom: -10px;
+  font-size: 7rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--tcw-numeral);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.5s ease;
+}
+
+.tcw-card:hover .tcw-card__numeral {
+  color: var(--tcw-numeral-hover);
+}
+
+/* Hero card (I) — larger numeral */
+.tcw-card--hero .tcw-card__numeral {
+  font-size: 12rem;
+  right: 16px;
+  bottom: -16px;
+}
+
+/* Warning card (III) */
+.tcw-card--warning {
+  border-left: 2px solid var(--tcw-warning-border);
+  background: var(--tcw-warning-bg);
+}
+
+.tcw-card--warning:hover {
+  border-left-color: #f59e0b;
+  background: var(--tcw-warning-bg-hover);
+}
+
+.tcw-card--warning .tcw-card__numeral {
+  color: var(--tcw-warning-numeral);
+}
+
+.tcw-card--warning:hover .tcw-card__numeral {
+  color: var(--tcw-warning-numeral-hover);
+}
+
+/* Card content */
+.tcw-card__index {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--tcw-index);
+  margin-bottom: 12px;
+}
+
+.tcw-card--warning .tcw-card__index {
+  color: #b45309;
+}
+
+.tcw-card__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--tcw-title);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin-bottom: auto;
+  transition: color 0.3s ease;
+}
+
+.tcw-card:hover .tcw-card__title {
+  color: var(--tcw-title-hover);
+}
+
+.tcw-card--hero .tcw-card__title {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+}
+
+.tcw-card--warning .tcw-card__title {
+  color: #d97706;
+}
+
+.tcw-card--warning:hover .tcw-card__title {
+  color: #f59e0b;
+}
+
+.tcw-card__body {
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--tcw-body);
+  margin-top: 16px;
+  transition: color 0.3s ease;
+}
+
+.tcw-card:hover .tcw-card__body {
+  color: var(--tcw-body-hover);
+}
+
+.tcw-card--hero .tcw-card__body {
+  font-size: 14px;
+}
+
+/* Decorative illustration in hero & warning cards */
+.tcw-card__illus {
+  position: absolute;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.tcw-card:hover .tcw-card__illus {
+  opacity: 0.7;
+}
+
+/* Entrance animation */
+@keyframes tcwCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tcw-card {
+  animation: tcwCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
