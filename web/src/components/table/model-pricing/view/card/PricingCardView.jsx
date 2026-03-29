@@ -19,7 +19,6 @@ For commercial licensing, please contact support@quantumnous.com
 
 import React from 'react';
 import {
-  Card,
   Tag,
   Tooltip,
   Checkbox,
@@ -235,7 +234,7 @@ const PricingCardView = ({
 
   return (
     <div className='px-2 pt-2'>
-      <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
         {paginatedModels.map((model, index) => {
           const modelKey = getModelKey(model);
           const isSelected = selectedRowKeys.includes(modelKey);
@@ -250,42 +249,45 @@ const PricingCardView = ({
             quotaDisplayType: siteDisplayType,
           });
 
+          const vendorInitial = (model.vendor_name || model.model_name || '?').charAt(0).toUpperCase();
+
           return (
-            <Card
+            <div
               key={modelKey || index}
-              className={`pricing-model-card ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
-              bodyStyle={{ height: '100%' }}
+              className={`pricing-model-card p-5 ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
               onClick={() => openModelDetail && openModelDetail(model)}
             >
+              {/* Watermark initial */}
+              <div className='pricing-card__watermark' aria-hidden='true'>
+                {vendorInitial}
+              </div>
+
               <div className='flex flex-col h-full'>
-                {/* 头部：图标 + 模型名称 + 操作按钮 */}
+                {/* Header: icon + name + actions */}
                 <div className='flex items-start justify-between mb-3'>
                   <div className='flex items-start space-x-3 flex-1 min-w-0'>
                     {getModelIcon(model)}
                     <div className='flex-1 min-w-0'>
-                      <h3 className='text-lg font-bold truncate' style={{ color: 'var(--landing-text-0)' }}>
+                      <h3 className='pricing-card__name truncate'>
                         {model.model_name}
                       </h3>
-                      <div className='flex flex-col gap-1 text-xs mt-1'>
+                      <div className='flex flex-col gap-0.5 mt-1.5 pricing-price-accent'>
                         {formatPriceInfo(priceData, t, siteDisplayType)}
                       </div>
                     </div>
                   </div>
 
-                  <div className='flex items-center space-x-2 ml-3'>
-                    {/* 复制按钮 */}
+                  <div className='flex items-center space-x-2 ml-2'>
                     <Button
                       size='small'
                       theme='outline'
                       type='tertiary'
-                      icon={<Copy size={12} />}
+                      icon={<Copy size={11} />}
                       onClick={(e) => {
                         e.stopPropagation();
                         copyText(model.model_name);
                       }}
                     />
-
-                    {/* 选择框 */}
                     {rowSelection && (
                       <Checkbox
                         checked={isSelected}
@@ -298,34 +300,30 @@ const PricingCardView = ({
                   </div>
                 </div>
 
-                {/* 模型描述 - 占据剩余空间 */}
+                {/* Description */}
                 <div className='flex-1 mb-4'>
-                  <p
-                    className='text-xs line-clamp-2 leading-relaxed'
-                    style={{ color: 'var(--semi-color-text-2)' }}
-                  >
+                  <p className='pricing-card__desc line-clamp-2'>
                     {getModelDescription(model)}
                   </p>
                 </div>
 
-                {/* 底部区域 */}
+                {/* Footer */}
                 <div className='mt-auto'>
-                  {/* 标签区域 */}
                   {renderTags(model)}
 
-                  {/* 倍率信息（可选） */}
                   {showRatio && (
                     <div className='pt-3'>
                       <div className='flex items-center space-x-1 mb-2'>
-                        <span className='text-xs font-medium' style={{ color: 'var(--landing-text-1)' }}>
+                        <span className='text-xs font-medium' style={{ color: 'var(--tcw-title)' }}>
                           {t('倍率信息')}
                         </span>
                         <Tooltip
                           content={t('倍率是为了方便换算不同价格的模型')}
                         >
                           <IconHelpCircle
-                            className='text-blue-500 cursor-pointer'
+                            className='cursor-pointer'
                             size='small'
+                            style={{ color: 'var(--pricing-accent)' }}
                             onClick={(e) => {
                               e.stopPropagation();
                               setModalImageUrl('/ratio.png');
@@ -334,7 +332,7 @@ const PricingCardView = ({
                           />
                         </Tooltip>
                       </div>
-                      <div className='grid grid-cols-3 gap-2 text-xs' style={{ color: 'var(--landing-text-2)' }}>
+                      <div className='grid grid-cols-3 gap-2 text-xs' style={{ color: 'var(--tcw-body)' }}>
                         <div>
                           {t('模型')}:{' '}
                           {model.quota_type === 0 ? model.model_ratio : t('无')}
@@ -353,7 +351,7 @@ const PricingCardView = ({
                   )}
                 </div>
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

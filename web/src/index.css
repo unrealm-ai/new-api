@@ -1900,44 +1900,103 @@ html.dark .with-pastel-balls::before {
 /* ==================== 模型定价页面布局（全新设计） ==================== */
 
 /* 页面容器 */
+/* ── Pricing accent variables ── */
+:root {
+  --pricing-accent: #d97706;
+  --pricing-accent-rgb: 217, 119, 6;
+  --pricing-accent-hover: #b45309;
+}
+
+html.dark {
+  --pricing-accent: #f59e0b;
+  --pricing-accent-rgb: 245, 158, 11;
+  --pricing-accent-hover: #fbbf24;
+}
+
 .pricing-page {
   min-height: calc(100vh - 60px);
   margin-top: 60px;
-  background: var(--landing-bg-0);
+  background: var(--tcw-bg);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
-/* 页面标题区 */
+/* Noise texture overlay — same as ToChord Way */
+.pricing-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: var(--tcw-noise-opacity);
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' fill='white'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Hero ── */
 .pricing-hero {
-  text-align: center;
-  padding: 3rem 1.5rem 1.5rem;
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.5rem 1.25rem;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
 
+.pricing-hero-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.pricing-hero-diamond {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  background: var(--pricing-accent);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.pricing-hero-label-text {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pricing-accent);
+}
+
 .pricing-hero-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, var(--landing-text-0) 0%, var(--landing-brand) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.75rem;
+  color: var(--tcw-heading);
+  margin-bottom: 0.4rem;
   line-height: 1.2;
 }
 
+.pricing-hero-title .accent {
+  color: var(--pricing-accent);
+}
+
 .pricing-hero-subtitle {
-  font-size: 1.1rem;
-  color: var(--landing-text-2);
-  max-width: 600px;
-  margin: 0 auto;
+  font-size: 0.95rem;
+  color: var(--tcw-sub);
   line-height: 1.6;
 }
 
-/* 水平筛选栏 */
+.pricing-hero-count {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tcw-sub);
+}
+
+/* ── Filter bar ── */
 .pricing-filter-bar {
   position: sticky;
   top: 60px;
@@ -1946,7 +2005,7 @@ html.dark .with-pastel-balls::before {
   background: var(--landing-glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--landing-border);
+  border-bottom: 1px solid var(--tcw-card-border);
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
@@ -1955,39 +2014,39 @@ html.dark .with-pastel-balls::before {
   width: 100%;
 }
 
-/* 搜索框样式 */
+/* 搜索框 */
 .pricing-search-input .semi-input-wrapper {
-  border-radius: 12px !important;
-  border-color: var(--landing-border) !important;
-  background: var(--landing-bg-1) !important;
+  border-radius: 10px !important;
+  border-color: var(--tcw-card-border) !important;
+  background: var(--tcw-card-bg) !important;
   transition: all 0.2s ease;
 }
 
 .pricing-search-input .semi-input-wrapper:focus-within {
-  border-color: var(--landing-brand) !important;
-  box-shadow: 0 0 0 3px rgba(var(--landing-brand-rgb, 39, 39, 42), 0.1) !important;
+  border-color: var(--pricing-accent) !important;
+  box-shadow: 0 0 0 3px rgba(var(--pricing-accent-rgb), 0.1) !important;
 }
 
 /* 操作按钮 */
 .pricing-action-btn {
   border-radius: 6px !important;
-  border-color: var(--landing-border) !important;
-  color: var(--landing-text-1) !important;
-  background: var(--landing-bg-1) !important;
+  border-color: var(--tcw-card-border) !important;
+  color: var(--tcw-title) !important;
+  background: var(--tcw-card-bg) !important;
 }
 
 .pricing-action-btn:hover {
-  border-color: var(--landing-brand) !important;
-  color: var(--landing-brand) !important;
+  border-color: var(--pricing-accent) !important;
+  color: var(--pricing-accent) !important;
 }
 
-/* 视图切换按钮组 */
+/* 视图切换 */
 .pricing-view-toggle {
   display: flex;
   border-radius: 6px;
-  border: 1px solid var(--landing-border);
+  border: 1px solid var(--tcw-card-border);
   overflow: hidden;
-  background: var(--landing-bg-1);
+  background: var(--tcw-card-bg);
 }
 
 .pricing-view-toggle-btn {
@@ -1998,21 +2057,21 @@ html.dark .with-pastel-balls::before {
   height: 32px;
   border: none;
   background: transparent;
-  color: var(--landing-text-2);
+  color: var(--tcw-title);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .pricing-view-toggle-btn:hover {
-  color: var(--landing-text-0);
+  color: var(--tcw-title-hover);
 }
 
 .pricing-view-toggle-btn.active {
-  background: var(--landing-brand);
+  background: var(--pricing-accent);
   color: #fff;
 }
 
-/* 胶囊小按钮（Token 单位等） */
+/* Chip 按钮 */
 .pricing-chip-btn {
   display: flex;
   align-items: center;
@@ -2021,9 +2080,9 @@ html.dark .with-pastel-balls::before {
   height: 32px;
   padding: 0 10px;
   border-radius: 6px;
-  border: 1px solid var(--landing-border);
-  background: var(--landing-bg-1);
-  color: var(--landing-text-1);
+  border: 1px solid var(--tcw-card-border);
+  background: var(--tcw-card-bg);
+  color: var(--tcw-title);
   font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
@@ -2031,8 +2090,8 @@ html.dark .with-pastel-balls::before {
 }
 
 .pricing-chip-btn:hover {
-  border-color: var(--landing-brand);
-  color: var(--landing-brand);
+  border-color: var(--pricing-accent);
+  color: var(--pricing-accent);
 }
 
 /* 货币选择器 */
@@ -2049,16 +2108,16 @@ html.dark .with-pastel-balls::before {
   flex-wrap: wrap;
 }
 
-/* 筛选胶囊按钮 */
+/* 筛选胶囊 */
 .pricing-filter-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
   border-radius: 6px;
-  border: 1px solid var(--landing-border);
-  background: var(--landing-bg-1);
-  color: var(--landing-text-1);
+  border: 1px solid var(--tcw-card-border);
+  background: var(--tcw-card-bg);
+  color: var(--tcw-title);
   font-size: 0.8125rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -2066,14 +2125,14 @@ html.dark .with-pastel-balls::before {
 }
 
 .pricing-filter-chip:hover {
-  border-color: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.4);
-  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.04);
+  border-color: rgba(var(--pricing-accent-rgb), 0.4);
+  background: rgba(var(--pricing-accent-rgb), 0.04);
 }
 
 .pricing-filter-chip.active {
-  border-color: var(--landing-brand);
-  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.08);
-  color: var(--landing-brand);
+  border-color: var(--pricing-accent);
+  background: rgba(var(--pricing-accent-rgb), 0.08);
+  color: var(--pricing-accent);
 }
 
 .pricing-filter-chip-value {
@@ -2081,7 +2140,7 @@ html.dark .with-pastel-balls::before {
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 600;
-  color: var(--landing-brand);
+  color: var(--pricing-accent);
 }
 
 .pricing-filter-chip-arrow {
@@ -2096,8 +2155,8 @@ html.dark .with-pastel-balls::before {
 /* 筛选弹出面板 */
 .pricing-filter-popover {
   border-radius: 16px !important;
-  border: 1px solid var(--landing-border) !important;
-  background: var(--landing-bg-1) !important;
+  border: 1px solid var(--tcw-card-border) !important;
+  background: var(--tcw-card-bg) !important;
   box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.15) !important;
   overflow: hidden;
 }
@@ -2122,15 +2181,15 @@ html.dark .with-pastel-balls::before {
   border-radius: 6px;
   border: 1px solid transparent;
   background: transparent;
-  color: var(--landing-text-2);
+  color: var(--tcw-body);
   font-size: 0.8125rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .pricing-filter-reset:hover {
-  color: var(--landing-brand);
-  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.04);
+  color: var(--pricing-accent);
+  background: rgba(var(--pricing-accent-rgb), 0.04);
 }
 
 /* 结果计数 */
@@ -2139,8 +2198,10 @@ html.dark .with-pastel-balls::before {
   font-size: 0.8125rem;
 }
 
-/* 内容区域 */
+/* ── Content area ── */
 .pricing-content-area {
+  position: relative;
+  z-index: 1;
   flex: 1;
   max-width: 1400px;
   margin: 0 auto;
@@ -2152,59 +2213,141 @@ html.dark .with-pastel-balls::before {
   min-height: 400px;
 }
 
-/* 分页分割线 */
 .pricing-pagination-divider {
-  border-color: var(--landing-border);
+  border-color: var(--tcw-card-border);
 }
 
-/* ---- 模型卡片样式 ---- */
-
+/* ── Model card — Card III (warning card) inspired style ── */
 .pricing-model-card {
+  position: relative;
+  overflow: hidden;
   border-radius: 16px !important;
-  border: 1px solid var(--landing-border) !important;
-  background: var(--landing-card-bg) !important;
-  box-shadow: var(--landing-card-shadow) !important;
+  border: 1px solid var(--tcw-card-border) !important;
+  border-left: 2px solid rgba(var(--pricing-accent-rgb), 0.25) !important;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 0.4s ease,
+              background 0.4s ease !important;
+  box-shadow: none !important;
+  /* Same warm gradient as ToChord Way Card III */
+  background: var(--tcw-warning-bg) !important;
 }
 
 .pricing-model-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.12) !important;
-  border-color: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.2) !important;
+  border-left-color: var(--pricing-accent) !important;
+  border-color: var(--tcw-card-border-hover) !important;
+  background: var(--tcw-warning-bg-hover) !important;
+}
+
+/* Inner content needs z-index above any pseudo-elements */
+.pricing-model-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .pricing-card-selected {
-  border-color: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.5) !important;
-  background: rgba(var(--landing-brand-rgb, 39, 39, 42), 0.04) !important;
+  border-color: var(--pricing-accent) !important;
+  border-left-color: var(--pricing-accent) !important;
+  background: rgba(var(--pricing-accent-rgb), 0.03) !important;
 }
 
 .pricing-card-default {
-  /* default state handled by .pricing-model-card */
+  /* handled by .pricing-model-card */
 }
 
-/* 深色模式下的卡片 hover 增强 */
+/* Model name — tighter tracking, hover brightens like TCW title */
+.pricing-model-card .pricing-card__name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--tcw-title);
+  transition: color 0.3s ease;
+}
+
+.pricing-model-card:hover .pricing-card__name {
+  color: var(--tcw-title-hover);
+}
+
+/* Price display — monospace amber accent */
+.pricing-price-accent {
+  color: var(--pricing-accent);
+  font-weight: 600;
+  font-size: 12px;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  letter-spacing: -0.01em;
+}
+
+/* Card watermark — vendor initial */
+.pricing-model-card .pricing-card__watermark {
+  position: absolute;
+  right: 10px;
+  bottom: -6px;
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--tcw-warning-numeral);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.5s ease;
+}
+
+.pricing-model-card:hover .pricing-card__watermark {
+  color: var(--tcw-warning-numeral-hover);
+}
+
+/* Description text — hover brightens */
+.pricing-model-card .pricing-card__desc {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--tcw-body);
+  transition: color 0.3s ease;
+}
+
+.pricing-model-card:hover .pricing-card__desc {
+  color: var(--tcw-body-hover);
+}
+
+/* Minimal billing pill */
+.pricing-billing-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.pricing-billing-pill--token {
+  background: rgba(var(--pricing-accent-rgb), 0.08);
+  color: var(--pricing-accent);
+}
+
+.pricing-billing-pill--request {
+  background: rgba(139, 92, 246, 0.08);
+  color: #8b5cf6;
+}
+
 html.dark .pricing-model-card:hover {
-  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.4),
-              0 0 0 1px rgba(var(--landing-brand-rgb, 39, 39, 42), 0.1) !important;
+  box-shadow: none !important;
 }
 
 html.dark .pricing-filter-popover {
   box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* 移动端适配 */
+/* ── Mobile ── */
 @media (max-width: 767px) {
   .pricing-hero {
-    padding: 2rem 1rem 1rem;
+    padding: 1.5rem 1rem 1rem;
   }
 
   .pricing-hero-title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .pricing-hero-subtitle {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
   }
 
   .pricing-filter-bar {

@@ -43,14 +43,27 @@ const PricingPage = () => {
 
   return (
     <div className='pricing-page'>
-      {/* 页面标题区 */}
+      {/* 页面标题区 — aligned with The ToChord Way */}
       <div className='pricing-hero'>
-        <h1 className='pricing-hero-title'>
-          {t('模型与定价')}
-        </h1>
-        <p className='pricing-hero-subtitle'>
-          {t('浏览所有可用模型及定价，找到最适合你的方案')}
-        </p>
+        <div className='pricing-hero-label'>
+          <span className='pricing-hero-diamond' />
+          <span className='pricing-hero-label-text'>Model Marketplace</span>
+        </div>
+        <div className='flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2'>
+          <div>
+            <h1 className='pricing-hero-title'>
+              {t('模型与')}<span className='accent'>{t('定价')}</span>
+            </h1>
+            <p className='pricing-hero-subtitle'>
+              {t('浏览所有可用模型及定价，找到最适合你的方案')}
+            </p>
+          </div>
+          {pricingData.models && pricingData.models.length > 0 && (
+            <span className='pricing-hero-count'>
+              {pricingData.models.length} models
+            </span>
+          )}
+        </div>
       </div>
 
       {/* 搜索 + 筛选 水平栏 */}
