@@ -53,7 +53,7 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
         to: '/pricing',
       },
       {
-        text: t('控制台'),
+        text: t('工作空间'),
         itemKey: 'console',
         to: '/console',
       },
@@ -68,7 +68,7 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
           ]
         : []),
       {
-        text: t('关于'),
+        text: t('关于拓弦'),
         itemKey: 'about',
         to: '/about',
       },
