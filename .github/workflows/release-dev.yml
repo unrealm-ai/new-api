@@ -1,0 +1,178 @@
+name: Release Dev (Linux, macOS, Windows)
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+      - weizhi-maas
+
+jobs:
+  linux:
+    name: Linux Dev Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Determine Version
+        run: |
+          VERSION="dev-$(git rev-parse --short HEAD)"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+      - name: Build Frontend
+        env:
+          CI: ""
+        run: |
+          cd web
+          bun install
+          DISABLE_ESLINT_PLUGIN='true' VITE_REACT_APP_VERSION=$VERSION bun run build
+          cd ..
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '>=1.25.1'
+      - name: Build Backend (amd64)
+        run: |
+          go mod download
+          go build -ldflags "-s -w -X 'new-api/common.Version=$VERSION' -extldflags '-static'" -o new-api-$VERSION
+      - name: Build Backend (arm64)
+        run: |
+          sudo apt-get update
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install -y gcc-aarch64-linux-gnu
+          CC=aarch64-linux-gnu-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build -ldflags "-s -w -X 'new-api/common.Version=$VERSION' -extldflags '-static'" -o new-api-arm64-$VERSION
+      - name: Generate checksums
+        run: sha256sum new-api-* > checksums-linux.txt
+      - name: Upload artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: linux-dev-${{ github.sha }}
+          path: |
+            new-api-*
+            checksums-linux.txt
+          retention-days: 30
+
+      - name: Update dev release
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
+        with:
+          tag_name: dev-latest
+          name: "Dev Build (${{ env.VERSION }})"
+          body: |
+            Automated dev build from `${{ github.ref_name }}` branch.
+            Commit: ${{ github.sha }}
+          prerelease: true
+          files: |
+            new-api-*
+            checksums-linux.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  macos:
+    name: macOS Dev Build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Determine Version
+        run: |
+          VERSION="dev-$(git rev-parse --short HEAD)"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+      - name: Build Frontend
+        env:
+          CI: ""
+          NODE_OPTIONS: "--max-old-space-size=4096"
+        run: |
+          cd web
+          bun install
+          DISABLE_ESLINT_PLUGIN='true' VITE_REACT_APP_VERSION=$VERSION bun run build
+          cd ..
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '>=1.25.1'
+      - name: Build Backend
+        run: |
+          go mod download
+          go build -ldflags "-X 'new-api/common.Version=$VERSION'" -o new-api-macos-$VERSION
+      - name: Generate checksums
+        run: shasum -a 256 new-api-macos-* > checksums-macos.txt
+      - name: Upload artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: macos-dev-${{ github.sha }}
+          path: |
+            new-api-macos-*
+            checksums-macos.txt
+          retention-days: 30
+
+      - name: Update dev release
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
+        with:
+          tag_name: dev-latest
+          name: "Dev Build (${{ env.VERSION }})"
+          prerelease: true
+          files: |
+            new-api-macos-*
+            checksums-macos.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  windows:
+    name: Windows Dev Build
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Determine Version
+        run: |
+          VERSION="dev-$(git rev-parse --short HEAD)"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+      - name: Build Frontend
+        env:
+          CI: ""
+        run: |
+          cd web
+          bun install
+          DISABLE_ESLINT_PLUGIN='true' VITE_REACT_APP_VERSION=$VERSION bun run build
+          cd ..
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '>=1.25.1'
+      - name: Build Backend
+        run: |
+          go mod download
+          go build -ldflags "-s -w -X 'new-api/common.Version=$VERSION'" -o new-api-$VERSION.exe
+      - name: Generate checksums
+        run: sha256sum new-api-*.exe > checksums-windows.txt
+      - name: Upload artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: windows-dev-${{ github.sha }}
+          path: |
+            new-api-*.exe
+            checksums-windows.txt
+          retention-days: 30
+
+      - name: Update dev release
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
+        with:
+          tag_name: dev-latest
+          name: "Dev Build (${{ env.VERSION }})"
+          prerelease: true
+          files: |
+            new-api-*.exe
+            checksums-windows.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
