@@ -186,7 +186,7 @@ const FooterBar = () => {
                   className='text-sm leading-relaxed'
                   style={{ color: 'var(--landing-text-2)' }}
                 >
-                  {t('统一 AI API 网关，聚合 40+ 主流 AI 服务商')}
+                  {t('稳定，品质。')}
                 </p>
 
                 {/* Contact info */}
@@ -194,10 +194,10 @@ const FooterBar = () => {
                   <div className='flex items-center gap-2'>
                     <IconEmail />
                     <a
-                      href='mailto:support@quantumnous.com'
+                      href='mailto:weizhilingyu01@163.com'
                       className='landing-link text-sm'
                     >
-                      support@quantumnous.com
+                      weizhilingyu01@163.com
                     </a>
                   </div>
                 </div>

@@ -43,17 +43,17 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
         to: '/',
       },
       {
-        text: t('立即体验'),
-        itemKey: 'playground',
-        to: '/playground',
-      },
-      {
         text: t('模型广场'),
         itemKey: 'pricing',
         to: '/pricing',
       },
       {
-        text: t('工作空间'),
+        text: t('调试'),
+        itemKey: 'playground',
+        to: '/playground',
+      },
+      {
+        text: t('控制台'),
         itemKey: 'console',
         to: '/console',
       },

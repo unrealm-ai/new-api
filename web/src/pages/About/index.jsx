@@ -18,7 +18,6 @@ import {
   Globe,
   GitBranch,
 } from 'lucide-react';
-import FooterBar from '../../components/layout/Footer';
 
 const About = () => {
   const { t } = useTranslation();
@@ -529,8 +528,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* Footer */}
-        <FooterBar />
       </div>
     </div>
   );

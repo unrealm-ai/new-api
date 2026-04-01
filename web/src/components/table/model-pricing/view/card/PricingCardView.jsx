@@ -249,40 +249,29 @@ const PricingCardView = ({
             quotaDisplayType: siteDisplayType,
           });
 
-          const vendorInitial = (model.vendor_name || model.model_name || '?').charAt(0).toUpperCase();
-
           return (
             <div
               key={modelKey || index}
-              className={`pricing-model-card p-5 ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
+              className={`pricing-model-card px-6 py-5 ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
               onClick={() => openModelDetail && openModelDetail(model)}
             >
-              {/* Watermark initial */}
-              <div className='pricing-card__watermark' aria-hidden='true'>
-                {vendorInitial}
-              </div>
-
-              <div className='flex flex-col h-full'>
-                {/* Header: icon + name + actions */}
-                <div className='flex items-start justify-between mb-3'>
-                  <div className='flex items-start space-x-3 flex-1 min-w-0'>
-                    {getModelIcon(model)}
-                    <div className='flex-1 min-w-0'>
-                      <h3 className='pricing-card__name truncate'>
-                        {model.model_name}
-                      </h3>
-                      <div className='flex flex-col gap-0.5 mt-1.5 pricing-price-accent'>
-                        {formatPriceInfo(priceData, t, siteDisplayType)}
-                      </div>
+              <div className='flex flex-col h-full gap-4'>
+                {/* Row 1: name + copy */}
+                <div className='flex items-start justify-between gap-2'>
+                  <div className='flex-1 min-w-0'>
+                    <h3 className='pricing-card__name truncate'>
+                      {model.model_name}
+                    </h3>
+                    <div className='pricing-card__vendor'>
+                      {model.vendor_name || '-'}
                     </div>
                   </div>
-
-                  <div className='flex items-center space-x-2 ml-2'>
+                  <div className='flex items-center gap-1.5 flex-shrink-0 mt-0.5'>
                     <Button
                       size='small'
-                      theme='outline'
+                      theme='borderless'
                       type='tertiary'
-                      icon={<Copy size={11} />}
+                      icon={<Copy size={12} />}
                       onClick={(e) => {
                         e.stopPropagation();
                         copyText(model.model_name);
@@ -300,56 +289,71 @@ const PricingCardView = ({
                   </div>
                 </div>
 
-                {/* Description */}
-                <div className='flex-1 mb-4'>
+                {/* Row 2: description */}
+                {getModelDescription(model) && (
                   <p className='pricing-card__desc line-clamp-2'>
                     {getModelDescription(model)}
                   </p>
+                )}
+
+                {/* Row 3: price */}
+                <div className='pricing-card__price'>
+                  {formatPriceInfo(priceData, t, siteDisplayType)}
                 </div>
 
-                {/* Footer */}
-                <div className='mt-auto'>
-                  {renderTags(model)}
+                {/* Row 4: tags */}
+                <div className='flex items-center gap-1.5 flex-wrap mt-auto'>
+                  {model.quota_type === 0 && (
+                    <span className='pricing-card__tag'>{t('按量计费')}</span>
+                  )}
+                  {model.quota_type === 1 && (
+                    <span className='pricing-card__tag'>{t('按次计费')}</span>
+                  )}
+                  {model.tags && model.tags.split(',').filter(Boolean).map((tag, idx) => (
+                    <span key={idx} className='pricing-card__tag'>{tag.trim()}</span>
+                  ))}
+                </div>
 
-                  {showRatio && (
-                    <div className='pt-3'>
-                      <div className='flex items-center space-x-1 mb-2'>
-                        <span className='text-xs font-medium' style={{ color: 'var(--tcw-title)' }}>
-                          {t('倍率信息')}
-                        </span>
-                        <Tooltip
-                          content={t('倍率是为了方便换算不同价格的模型')}
-                        >
-                          <IconHelpCircle
-                            className='cursor-pointer'
-                            size='small'
-                            style={{ color: 'var(--pricing-accent)' }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setModalImageUrl('/ratio.png');
-                              setIsModalOpenurl(true);
-                            }}
-                          />
-                        </Tooltip>
+                {/* Ratio info (optional) */}
+                {showRatio && (
+                  <div
+                    className='pt-3 mt-1'
+                    style={{ borderTop: '1px solid var(--tcw-card-border)' }}
+                  >
+                    <div className='flex items-center gap-1 mb-2'>
+                      <span className='text-xs' style={{ color: 'var(--tcw-sub)' }}>
+                        {t('倍率信息')}
+                      </span>
+                      <Tooltip content={t('倍率是为了方便换算不同价格的模型')}>
+                        <IconHelpCircle
+                          className='cursor-pointer'
+                          size='extra-small'
+                          style={{ color: 'var(--tcw-sub)' }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setModalImageUrl('/ratio.png');
+                            setIsModalOpenurl(true);
+                          }}
+                        />
+                      </Tooltip>
+                    </div>
+                    <div className='grid grid-cols-3 gap-2 text-xs' style={{ color: 'var(--tcw-body)' }}>
+                      <div>
+                        {t('模型')}:{' '}
+                        {model.quota_type === 0 ? model.model_ratio : '-'}
                       </div>
-                      <div className='grid grid-cols-3 gap-2 text-xs' style={{ color: 'var(--tcw-body)' }}>
-                        <div>
-                          {t('模型')}:{' '}
-                          {model.quota_type === 0 ? model.model_ratio : t('无')}
-                        </div>
-                        <div>
-                          {t('补全')}:{' '}
-                          {model.quota_type === 0
-                            ? parseFloat(model.completion_ratio.toFixed(3))
-                            : t('无')}
-                        </div>
-                        <div>
-                          {t('分组')}: {priceData?.usedGroupRatio ?? '-'}
-                        </div>
+                      <div>
+                        {t('补全')}:{' '}
+                        {model.quota_type === 0
+                          ? parseFloat(model.completion_ratio.toFixed(3))
+                          : '-'}
+                      </div>
+                      <div>
+                        {t('分组')}: {priceData?.usedGroupRatio ?? '-'}
                       </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           );

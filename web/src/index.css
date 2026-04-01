@@ -2217,119 +2217,81 @@ html.dark {
   border-color: var(--tcw-card-border);
 }
 
-/* ── Model card — Card III (warning card) inspired style ── */
+/* ── Model card — Minimal / Linear style ── */
 .pricing-model-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px !important;
+  border-radius: 12px !important;
   border: 1px solid var(--tcw-card-border) !important;
-  border-left: 2px solid rgba(var(--pricing-accent-rgb), 0.25) !important;
-  cursor: pointer;
-  transition: border-color 0.4s ease,
-              background 0.4s ease !important;
+  background: transparent !important;
   box-shadow: none !important;
-  /* Same warm gradient as ToChord Way Card III */
-  background: var(--tcw-warning-bg) !important;
+  cursor: pointer;
+  transition: border-color 0.2s ease !important;
 }
 
 .pricing-model-card:hover {
-  border-left-color: var(--pricing-accent) !important;
-  border-color: var(--tcw-card-border-hover) !important;
-  background: var(--tcw-warning-bg-hover) !important;
-}
-
-/* Inner content needs z-index above any pseudo-elements */
-.pricing-model-card > * {
-  position: relative;
-  z-index: 1;
+  border-color: var(--pricing-accent) !important;
 }
 
 .pricing-card-selected {
   border-color: var(--pricing-accent) !important;
-  border-left-color: var(--pricing-accent) !important;
-  background: rgba(var(--pricing-accent-rgb), 0.03) !important;
+  background: rgba(var(--pricing-accent-rgb), 0.02) !important;
 }
 
-.pricing-card-default {
-  /* handled by .pricing-model-card */
-}
+.pricing-card-default {}
 
-/* Model name — tighter tracking, hover brightens like TCW title */
+/* Model name */
 .pricing-model-card .pricing-card__name {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.3;
-  color: var(--tcw-title);
-  transition: color 0.3s ease;
+  color: var(--tcw-heading);
 }
 
-.pricing-model-card:hover .pricing-card__name {
-  color: var(--tcw-title-hover);
-}
-
-/* Price display — monospace amber accent */
-.pricing-price-accent {
-  color: var(--pricing-accent);
-  font-weight: 600;
+/* Vendor name */
+.pricing-model-card .pricing-card__vendor {
   font-size: 12px;
+  color: var(--tcw-sub);
+  margin-top: 2px;
+}
+
+/* Description */
+.pricing-model-card .pricing-card__desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--tcw-body);
+}
+
+/* Price — monospace, prominent */
+.pricing-model-card .pricing-card__price {
+  font-size: 13px;
   font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  color: var(--tcw-heading);
   letter-spacing: -0.01em;
 }
 
-/* Card watermark — vendor initial */
-.pricing-model-card .pricing-card__watermark {
-  position: absolute;
-  right: 10px;
-  bottom: -6px;
-  font-size: 5rem;
-  font-weight: 900;
-  line-height: 1;
-  color: var(--tcw-warning-numeral);
-  pointer-events: none;
-  user-select: none;
-  transition: color 0.5s ease;
+.pricing-model-card .pricing-card__price-arrow {
+  color: var(--tcw-sub);
+  margin: 0 6px;
 }
 
-.pricing-model-card:hover .pricing-card__watermark {
-  color: var(--tcw-warning-numeral-hover);
+.pricing-model-card .pricing-card__price-unit {
+  font-size: 11px;
+  color: var(--tcw-sub);
+  font-family: inherit;
+  margin-left: 6px;
 }
 
-/* Description text — hover brightens */
-.pricing-model-card .pricing-card__desc {
-  font-size: 12px;
-  line-height: 1.7;
-  color: var(--tcw-body);
-  transition: color 0.3s ease;
-}
-
-.pricing-model-card:hover .pricing-card__desc {
-  color: var(--tcw-body-hover);
-}
-
-/* Minimal billing pill */
-.pricing-billing-pill {
+/* Tag pills — outline only, no fill */
+.pricing-model-card .pricing-card__tag {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 1px 7px;
+  border-radius: 3px;
+  border: 1px solid var(--tcw-card-border);
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.pricing-billing-pill--token {
-  background: rgba(var(--pricing-accent-rgb), 0.08);
-  color: var(--pricing-accent);
-}
-
-.pricing-billing-pill--request {
-  background: rgba(139, 92, 246, 0.08);
-  color: #8b5cf6;
-}
-
-html.dark .pricing-model-card:hover {
-  box-shadow: none !important;
+  color: var(--tcw-sub);
+  background: transparent;
+  line-height: 1.6;
 }
 
 html.dark .pricing-filter-popover {
