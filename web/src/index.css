@@ -38,6 +38,20 @@
   --landing-glass-bg: rgba(240, 240, 242, 0.8);
   --landing-glass-border: rgba(0, 0, 0, 0.08);
   --landing-code-bg: #e8e8ec;
+
+  /* ---- Semi Design Primary Color Override → Amber ---- */
+  --semi-color-primary: #d97706;
+  --semi-color-primary-hover: #b45309;
+  --semi-color-primary-active: #92400e;
+  --semi-color-primary-disabled: rgba(217, 119, 6, 0.4);
+  --semi-color-primary-light-default: rgba(217, 119, 6, 0.08);
+  --semi-color-primary-light-hover: rgba(217, 119, 6, 0.12);
+  --semi-color-primary-light-active: rgba(217, 119, 6, 0.16);
+  --semi-color-focus-border: rgba(217, 119, 6, 0.5);
+  --semi-color-link: #d97706;
+  --semi-color-link-hover: #b45309;
+  --semi-color-link-active: #92400e;
+  --semi-color-link-visited: #92400e;
 }
 
 html.dark {
@@ -60,6 +74,20 @@ html.dark {
   --landing-glass-bg: rgba(9, 9, 11, 0.75);
   --landing-glass-border: rgba(255, 255, 255, 0.08);
   --landing-code-bg: #1f1f23;
+
+  /* ---- Semi Design Primary Color Override → Amber (Dark) ---- */
+  --semi-color-primary: #f59e0b;
+  --semi-color-primary-hover: #fbbf24;
+  --semi-color-primary-active: #d97706;
+  --semi-color-primary-disabled: rgba(245, 158, 11, 0.4);
+  --semi-color-primary-light-default: rgba(245, 158, 11, 0.08);
+  --semi-color-primary-light-hover: rgba(245, 158, 11, 0.12);
+  --semi-color-primary-light-active: rgba(245, 158, 11, 0.16);
+  --semi-color-focus-border: rgba(245, 158, 11, 0.5);
+  --semi-color-link: #f59e0b;
+  --semi-color-link-hover: #fbbf24;
+  --semi-color-link-active: #d97706;
+  --semi-color-link-visited: #d97706;
 }
 
 body.sidebar-collapsed {
@@ -157,12 +185,32 @@ html.dark .btn-brand:hover {
   color: var(--landing-brand);
 }
 
-/* 导航栏毛玻璃效果 */
+/* 导航栏 — 深色实底 + amber 底线 */
 .nav-glass {
-  background: var(--landing-glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--landing-glass-border);
+  background: #09090b;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+  color: #fafafa;
+}
+
+/* 导航栏文字颜色覆盖 — 深色底上强制浅色文字 */
+.nav-glass,
+.nav-glass * {
+  --semi-color-text-0: #fafafa;
+  --semi-color-text-1: #d4d4d8;
+  --semi-color-text-2: #a1a1aa;
+}
+
+/* 导航栏链接 hover — amber */
+.nav-glass a:hover,
+.nav-glass button:hover {
+  color: #f59e0b !important;
+}
+
+/* 导航栏选中项 */
+.nav-glass .semi-navigation-item-selected {
+  color: #f59e0b !important;
 }
 
 /* 网格点阵背景 */
@@ -1142,20 +1190,21 @@ code {
   font-weight: 600 !important;
 }
 
-/* 自定义侧边栏样式 */
+/* ── Sidebar — Dark solid bg, amber accents ── */
 .sidebar-container {
   height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 0;
   transition: width 0.3s ease;
-  background: var(--semi-color-bg-0);
+  background: #0c0c0e;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sidebar-nav {
   flex: 1;
   width: 100%;
-  background: var(--semi-color-bg-0);
+  background: transparent;
   height: 100%;
   overflow-x: hidden;
   border-right: none;
@@ -1170,34 +1219,49 @@ code {
   display: none;
 }
 
-/* 侧边栏导航项样式 */
+/* Force light text on dark sidebar bg */
+.sidebar-container,
+.sidebar-container * {
+  --semi-color-text-0: #e4e4e7;
+  --semi-color-text-1: #a1a1aa;
+  --semi-color-text-2: #71717a;
+  --semi-color-bg-0: #0c0c0e;
+  --semi-color-bg-1: #111114;
+  --semi-color-fill-0: rgba(255, 255, 255, 0.04);
+}
+
+/* Nav item — dark sidebar style */
 .sidebar-nav-item {
   border-radius: 6px;
-  margin: 3px 8px;
+  margin: 2px 8px;
   transition: all 0.15s ease;
   padding: 8px 12px;
+  border-left: 2px solid transparent;
+  color: #71717a;
 }
 
 .sidebar-nav-item:hover {
-  background-color: rgba(var(--semi-blue-0), 0.08);
-  color: var(--semi-color-primary);
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #e4e4e7;
 }
 
+/* Selected — amber left indicator + bright text */
 .sidebar-nav-item-selected {
-  background-color: rgba(var(--semi-blue-0), 0.12);
-  color: var(--semi-color-primary);
-  font-weight: 500;
+  background-color: rgba(245, 158, 11, 0.06);
+  border-left-color: #f59e0b;
+  color: #fafafa;
+  font-weight: 600;
 }
 
-/* 图标容器样式 */
+/* Icon containers */
 .sidebar-icon-container {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 10px;
-  transition: all 0.2s ease;
+  transition: color 0.15s ease;
 }
 
 .sidebar-sub-icon-container {
@@ -1208,51 +1272,56 @@ code {
   justify-content: center;
   margin-right: 10px;
   margin-left: 1px;
-  transition: all 0.2s ease;
+  transition: color 0.15s ease;
 }
 
-/* 分割线样式 */
+/* Divider — subtle on dark */
 .sidebar-divider {
-  margin: 4px 8px;
-  opacity: 0.15;
+  margin: 6px 12px;
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.06) !important;
 }
 
-/* 分组标签样式 */
+/* Group label — amber tinted */
 .sidebar-group-label {
-  padding: 4px 15px 8px;
-  color: var(--semi-color-text-2);
-  font-size: 12px;
+  padding: 8px 15px 4px;
+  color: #52525b;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  opacity: 0.8;
+  letter-spacing: 0.12em;
+  font-weight: 600;
 }
 
-/* 底部折叠按钮 */
+/* Collapse button — dark */
 .sidebar-collapse-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 10px;
   margin-top: auto;
   cursor: pointer;
-  background-color: var(--semi-color-bg-0);
+  background-color: #0c0c0e;
   position: sticky;
   bottom: 0;
   z-index: 10;
-  box-shadow: 0 -10px 10px -5px var(--semi-color-bg-0);
-  backdrop-filter: blur(4px);
-  border-top: 1px solid rgba(var(--semi-grey-0), 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sidebar-collapse-button-inner {
-  width: 28px;
-  height: 28px;
-  border-radius: 9999px;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--semi-color-fill-0);
+  background-color: transparent;
+  color: #52525b;
   transition: all 0.2s ease;
+}
+
+.sidebar-collapse-button-inner:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #f59e0b;
 }
 
 .sidebar-collapse-icon-container {
@@ -1260,24 +1329,19 @@ code {
   transition: transform 0.3s ease;
 }
 
-/* 侧边栏区域容器 */
+/* Section container */
 .sidebar-section {
-  padding-top: 12px;
+  padding-top: 8px;
 }
 
 @media (max-width: 767px) {
   .sidebar-container {
-    background: var(--semi-color-bg-1);
-    border-right: 1px solid var(--semi-color-border);
-  }
-
-  .sidebar-nav {
-    background: var(--semi-color-bg-1);
+    background: #0c0c0e;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .sidebar-collapse-button {
-    background-color: var(--semi-color-bg-1);
-    box-shadow: 0 -10px 10px -5px var(--semi-color-bg-1);
+    background-color: #0c0c0e;
   }
 }
 
@@ -2326,10 +2390,174 @@ html.dark .pricing-filter-popover {
   }
 }
 
-/* ==================== semi-ui 组件自定义样式 ==================== */
+/* ==================== Console Global Style — Minimal ==================== */
+
+/* Semi Card — clean borders, no shadow */
+.semi-card {
+  border-radius: 12px !important;
+  border: 1px solid var(--tcw-card-border) !important;
+  box-shadow: none !important;
+  background: var(--tcw-card-bg) !important;
+}
+
 .semi-card-header,
 .semi-card-body {
   padding: 10px !important;
+}
+
+/* Semi Table — clean */
+.semi-table-wrapper {
+  border-radius: 12px !important;
+  border: 1px solid var(--tcw-card-border) !important;
+  overflow: hidden;
+}
+
+.semi-table-thead > .semi-table-row > .semi-table-row-head {
+  background: var(--tcw-card-bg) !important;
+  border-bottom: 1px solid var(--tcw-card-border) !important;
+  color: var(--tcw-sub) !important;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.semi-table-tbody > .semi-table-row > .semi-table-row-cell {
+  border-bottom: 1px solid var(--tcw-card-border) !important;
+}
+
+.semi-table-tbody > .semi-table-row:last-child > .semi-table-row-cell {
+  border-bottom: none !important;
+}
+
+/* Semi Modal — clean */
+.semi-modal-content {
+  border-radius: 14px !important;
+  border: 1px solid var(--tcw-card-border) !important;
+}
+
+/* Semi Button — default outline style refinement */
+.semi-button-default {
+  border-color: var(--tcw-card-border) !important;
+}
+
+/* Semi Tabs — amber indicator */
+.semi-tabs-bar .semi-tabs-tab-active {
+  color: var(--semi-color-primary) !important;
+}
+
+.semi-tabs-ink-bar {
+  background-color: var(--semi-color-primary) !important;
+}
+
+/* Semi Tag — softer borders */
+.semi-tag {
+  border-radius: 4px !important;
+}
+
+/* Semi Input — clean focus */
+.semi-input-wrapper:focus-within {
+  border-color: var(--semi-color-primary) !important;
+}
+
+/* Semi Switch — amber */
+.semi-switch-checked {
+  background-color: var(--semi-color-primary) !important;
+}
+
+/* Semi Button — primary solid amber */
+.semi-button-primary {
+  background-color: var(--semi-color-primary) !important;
+  border-color: var(--semi-color-primary) !important;
+  color: #fff !important;
+}
+
+.semi-button-primary:hover {
+  background-color: var(--semi-color-primary-hover) !important;
+  border-color: var(--semi-color-primary-hover) !important;
+}
+
+/* Semi Button — tertiary (ghost) */
+.semi-button-tertiary {
+  color: var(--tcw-body) !important;
+}
+
+.semi-button-tertiary:hover {
+  background-color: var(--semi-color-primary-light-default) !important;
+  color: var(--semi-color-primary) !important;
+}
+
+/* Semi Pagination — amber active */
+.semi-page-item-active {
+  background-color: var(--semi-color-primary) !important;
+  border-color: var(--semi-color-primary) !important;
+  color: #fff !important;
+}
+
+/* Semi Select — amber focus */
+.semi-select:focus-within {
+  border-color: var(--semi-color-primary) !important;
+}
+
+/* Semi Card header — minimal */
+.semi-card-header {
+  border-bottom: 1px solid var(--tcw-card-border) !important;
+}
+
+.semi-card-header-wrapper .semi-card-header-title {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: var(--tcw-heading) !important;
+}
+
+/* Semi Checkbox — amber */
+.semi-checkbox-inner-checked,
+.semi-checkbox-inner-indeterminate {
+  background-color: var(--semi-color-primary) !important;
+  border-color: var(--semi-color-primary) !important;
+}
+
+/* Semi Radio — amber */
+.semi-radio-inner-checked {
+  border-color: var(--semi-color-primary) !important;
+}
+
+.semi-radio-inner-checked::after {
+  background-color: var(--semi-color-primary) !important;
+}
+
+/* Console page background */
+.semi-layout-content {
+  background: var(--tcw-bg) !important;
+}
+
+/* Semi Sider — force dark bg to match sidebar */
+.semi-layout-sider {
+  background: #0c0c0e !important;
+}
+
+/* Semi Navigation on sidebar — override for dark bg */
+.sidebar-nav .semi-navigation {
+  background: transparent !important;
+  border-right: none !important;
+}
+
+.sidebar-nav .semi-navigation-item:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.sidebar-nav .semi-navigation-item-selected {
+  background: rgba(245, 158, 11, 0.06) !important;
+  color: #fafafa !important;
+}
+
+/* Dashboard panel — remove pastel balls, use clean bg */
+.with-pastel-balls {
+  --pb-opacity: 0;
+}
+
+.with-pastel-balls::before {
+  display: none;
 }
 
 /* ==================== 使用日志: channel affinity tag ==================== */

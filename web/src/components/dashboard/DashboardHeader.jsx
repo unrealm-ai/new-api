@@ -29,30 +29,58 @@ const DashboardHeader = ({
   loading,
   t,
 }) => {
-  const ICON_BUTTON_CLASS = 'text-white hover:bg-opacity-80 !rounded-md';
-
   return (
-    <div className='flex items-center justify-between mb-4'>
+    <div className='flex items-center justify-between mb-6'>
       <h2
-        className='text-2xl font-semibold text-gray-800 transition-opacity duration-1000 ease-in-out'
-        style={{ opacity: greetingVisible ? 1 : 0 }}
+        className='text-xl font-semibold transition-opacity duration-1000 ease-in-out'
+        style={{
+          opacity: greetingVisible ? 1 : 0,
+          color: 'var(--tcw-heading)',
+        }}
       >
         {getGreeting}
       </h2>
-      <div className='flex gap-3'>
-        <Button
-          type='tertiary'
-          icon={<Search size={16} />}
+      <div className='flex gap-2'>
+        <button
           onClick={showSearchModal}
-          className={`bg-green-500 hover:bg-green-600 ${ICON_BUTTON_CLASS}`}
-        />
-        <Button
-          type='tertiary'
-          icon={<RefreshCw size={16} />}
+          className='flex items-center justify-center w-8 h-8 rounded-md transition-colors cursor-pointer'
+          style={{
+            border: '1px solid var(--tcw-card-border)',
+            background: 'transparent',
+            color: 'var(--tcw-sub)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--pricing-accent)';
+            e.currentTarget.style.color = 'var(--pricing-accent)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'var(--tcw-card-border)';
+            e.currentTarget.style.color = 'var(--tcw-sub)';
+          }}
+        >
+          <Search size={14} />
+        </button>
+        <button
           onClick={refresh}
-          loading={loading}
-          className={`bg-blue-500 hover:bg-blue-600 ${ICON_BUTTON_CLASS}`}
-        />
+          disabled={loading}
+          className='flex items-center justify-center w-8 h-8 rounded-md transition-colors cursor-pointer'
+          style={{
+            border: '1px solid var(--tcw-card-border)',
+            background: 'transparent',
+            color: 'var(--tcw-sub)',
+            opacity: loading ? 0.5 : 1,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--pricing-accent)';
+            e.currentTarget.style.color = 'var(--pricing-accent)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'var(--tcw-card-border)';
+            e.currentTarget.style.color = 'var(--tcw-sub)';
+          }}
+        >
+          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+        </button>
       </div>
     </div>
   );

@@ -171,7 +171,7 @@ print(response.choices[0].message.content)`;
             className='text-base sm:text-lg md:text-xl leading-relaxed mb-12 max-w-md mx-auto'
             style={{ color: 'var(--tcw-body)' }}
           >
-            {t('统一 API 接入 Claude、GPT、Gemini、DeepSeek —— 官方直连，零掺水。')}
+            {t('统一 API 接入 Claude, GPT —— 官方直连，零掺水。')}
           </p>
 
           <Link to='/console/token'>
