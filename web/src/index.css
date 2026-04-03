@@ -39,7 +39,12 @@
   --landing-glass-border: rgba(0, 0, 0, 0.08);
   --landing-code-bg: #e8e8ec;
 
-  /* ---- Semi Design Primary Color Override → Amber ---- */
+}
+
+/* ---- Semi Design Primary Color Override → Amber ----
+   MUST use body selector to override Semi's own body-level CSS vars.
+   Semi defines --semi-color-primary on `body`, so :root is NOT enough. */
+body {
   --semi-color-primary: #d97706;
   --semi-color-primary-hover: #b45309;
   --semi-color-primary-active: #92400e;
@@ -75,7 +80,11 @@ html.dark {
   --landing-glass-border: rgba(255, 255, 255, 0.08);
   --landing-code-bg: #1f1f23;
 
-  /* ---- Semi Design Primary Color Override → Amber (Dark) ---- */
+}
+
+/* Semi Primary Override (Dark) — must use body[theme-mode=dark] to match Semi's own selector */
+body[theme-mode=dark],
+html.dark body {
   --semi-color-primary: #f59e0b;
   --semi-color-primary-hover: #fbbf24;
   --semi-color-primary-active: #d97706;
@@ -2570,11 +2579,18 @@ html.dark .pricing-filter-popover {
 
 /* Semi Tag — override colored variants to neutral or amber */
 .semi-tag-blue,
+.semi-tag-light-blue,
 .semi-tag-cyan,
 .semi-tag-teal {
   background-color: rgba(var(--pricing-accent-rgb), 0.08) !important;
   color: var(--pricing-accent) !important;
   border-color: transparent !important;
+}
+
+/* Semi Avatar — override blue to amber */
+.semi-avatar-blue {
+  background-color: rgba(var(--pricing-accent-rgb), 0.12) !important;
+  color: var(--pricing-accent) !important;
 }
 
 .semi-tag-green {
@@ -2590,19 +2606,57 @@ html.dark .pricing-filter-popover {
   border-color: transparent !important;
 }
 
-/* Override Tailwind blue-* to amber equivalents in console context */
-.bg-blue-50 { background-color: rgba(var(--pricing-accent-rgb), 0.06) !important; }
+/* Override ALL Tailwind blue-* to amber equivalents — unified black-amber theme */
+/* Background */
+.bg-blue-50, .bg-blue-50\/50 { background-color: rgba(var(--pricing-accent-rgb), 0.06) !important; }
 .bg-blue-100 { background-color: rgba(var(--pricing-accent-rgb), 0.1) !important; }
 .bg-blue-500 { background-color: var(--pricing-accent) !important; }
 .bg-blue-600 { background-color: var(--pricing-accent) !important; }
+.bg-blue-700 { background-color: var(--pricing-accent-hover) !important; }
 .bg-blue-900 { background-color: rgba(var(--pricing-accent-rgb), 0.15) !important; }
+.\!bg-blue-50 { background-color: rgba(var(--pricing-accent-rgb), 0.06) !important; }
+.\!bg-blue-500 { background-color: var(--pricing-accent) !important; }
+.\!bg-blue-600 { background-color: var(--pricing-accent) !important; }
+/* Text */
 .text-blue-500 { color: var(--pricing-accent) !important; }
 .text-blue-600 { color: var(--pricing-accent) !important; }
 .text-blue-700 { color: var(--pricing-accent-hover) !important; }
+.text-blue-800 { color: var(--pricing-accent-hover) !important; }
+.\!text-blue-600 { color: var(--pricing-accent) !important; }
+/* Border */
+.border-blue-200 { border-color: rgba(var(--pricing-accent-rgb), 0.25) !important; }
+.border-blue-300 { border-color: rgba(var(--pricing-accent-rgb), 0.35) !important; }
+.border-blue-400 { border-color: rgba(var(--pricing-accent-rgb), 0.5) !important; }
+.border-blue-500 { border-color: var(--pricing-accent) !important; }
+.\!border-blue-200 { border-color: rgba(var(--pricing-accent-rgb), 0.25) !important; }
+.\!border-blue-400 { border-color: rgba(var(--pricing-accent-rgb), 0.5) !important; }
+/* Ring */
+.ring-blue-200 { --tw-ring-color: rgba(var(--pricing-accent-rgb), 0.3) !important; }
+.ring-blue-500 { --tw-ring-color: var(--pricing-accent) !important; }
+/* Hover states */
 .hover\:text-blue-500:hover { color: var(--pricing-accent) !important; }
+.hover\:text-blue-600:hover { color: var(--pricing-accent) !important; }
+.hover\:text-blue-800:hover { color: var(--pricing-accent-hover) !important; }
+.hover\:\!text-blue-600:hover { color: var(--pricing-accent) !important; }
 .hover\:bg-blue-50:hover { background-color: rgba(var(--pricing-accent-rgb), 0.06) !important; }
 .hover\:bg-blue-600:hover { background-color: var(--pricing-accent-hover) !important; }
-.ring-blue-200 { --tw-ring-color: rgba(var(--pricing-accent-rgb), 0.3) !important; }
+.hover\:bg-blue-700:hover { background-color: var(--pricing-accent-hover) !important; }
+.hover\:\!bg-blue-50:hover { background-color: rgba(var(--pricing-accent-rgb), 0.06) !important; }
+.hover\:\!bg-blue-500:hover { background-color: var(--pricing-accent) !important; }
+.hover\:\!bg-blue-600:hover { background-color: var(--pricing-accent-hover) !important; }
+.hover\:border-blue-300:hover { border-color: var(--pricing-accent) !important; }
+/* Focus states */
+.focus\:border-blue-400:focus { border-color: rgba(var(--pricing-accent-rgb), 0.5) !important; }
+.focus\:\!border-blue-400:focus { border-color: rgba(var(--pricing-accent-rgb), 0.5) !important; }
+/* Dark mode overrides — map dark:blue to amber */
+.dark\:\!bg-blue-500 { background-color: var(--pricing-accent) !important; }
+.dark\:\!bg-blue-600 { background-color: var(--pricing-accent) !important; }
+.dark\:hover\:\!bg-blue-500:hover { background-color: var(--pricing-accent) !important; }
+.dark\:hover\:\!bg-blue-600:hover { background-color: var(--pricing-accent-hover) !important; }
+.dark\:text-blue-200 { color: rgba(var(--pricing-accent-rgb), 0.7) !important; }
+.dark\:text-blue-400 { color: var(--pricing-accent) !important; }
+/* Override Tailwind amber-600 text to use CSS variable for consistency */
+.text-amber-600 { color: var(--pricing-accent) !important; }
 
 /* Override Tailwind green-* to amber or success-neutral */
 .bg-green-500 { background-color: var(--pricing-accent) !important; }
@@ -2615,7 +2669,10 @@ html.dark .pricing-filter-popover {
 
 /* Override Tailwind purple-* to amber */
 .bg-purple-50 { background-color: rgba(var(--pricing-accent-rgb), 0.06) !important; }
+.text-purple-500 { color: var(--pricing-accent) !important; }
 .text-purple-600 { color: var(--pricing-accent) !important; }
+.ring-purple-500 { --tw-ring-color: var(--pricing-accent) !important; }
+.ring-2.ring-purple-500 { box-shadow: 0 0 0 2px var(--pricing-accent) !important; }
 
 /* Normalize gray text to use TCW tokens */
 .text-gray-400 { color: var(--tcw-sub) !important; }

@@ -317,9 +317,9 @@ export const getDeploymentsColumns = ({
           <div
             className='flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide'
             style={{
-              borderColor: 'rgba(59, 130, 246, 0.4)',
-              backgroundColor: 'rgba(59, 130, 246, 0.08)',
-              color: '#2563eb',
+              borderColor: 'rgba(217, 119, 6, 0.4)',
+              backgroundColor: 'rgba(217, 119, 6, 0.08)',
+              color: '#d97706',
             }}
           >
             <FaGlobe className='text-[11px]' />

@@ -52,9 +52,9 @@ export const useDashboardStats = (
             title: t('当前余额'),
             value: renderQuota(userState?.user?.quota),
             icon: <IconMoneyExchangeStroked />,
-            avatarColor: 'blue',
+            avatarColor: 'amber',
             trendData: [],
-            trendColor: '#3b82f6',
+            trendColor: '#d97706',
           },
           {
             title: t('历史消耗'),
