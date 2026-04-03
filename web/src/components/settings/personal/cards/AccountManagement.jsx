@@ -20,11 +20,9 @@ For commercial licensing, please contact support@quantumnous.com
 import React from 'react';
 import {
   Button,
-  Card,
   Input,
   Space,
   Typography,
-  Avatar,
   Tabs,
   TabPane,
   Popover,
@@ -54,6 +52,32 @@ import {
 } from '../../../../helpers';
 import TwoFASetting from '../components/TwoFASetting';
 
+// Reusable TCW-styled icon container
+const IconBox = ({ children }) => (
+  <div
+    className='w-10 h-10 rounded-lg flex items-center justify-center mr-3 flex-shrink-0'
+    style={{
+      border: '1px solid var(--tcw-card-border)',
+      color: 'var(--tcw-title)',
+    }}
+  >
+    {children}
+  </div>
+);
+
+// Reusable TCW-styled inner card
+const InnerCard = ({ children, className = '' }) => (
+  <div
+    className={`rounded-xl p-4 ${className}`}
+    style={{
+      border: '1px solid var(--tcw-card-border)',
+      background: 'var(--tcw-card-bg)',
+    }}
+  >
+    {children}
+  </div>
+);
+
 const AccountManagement = ({
   t,
   userState,
@@ -74,7 +98,7 @@ const AccountManagement = ({
 }) => {
   const renderAccountInfo = (accountId, label) => {
     if (!accountId || accountId === '') {
-      return <span className='text-gray-500'>{t('未绑定')}</span>;
+      return <span style={{ color: 'var(--tcw-sub)' }}>{t('未绑定')}</span>;
     }
 
     const popContent = (
@@ -83,14 +107,17 @@ const AccountManagement = ({
           {accountId}
         </Typography.Paragraph>
         {label ? (
-          <div className='mt-1 text-[11px] text-gray-500'>{label}</div>
+          <div className='mt-1 text-[11px]' style={{ color: 'var(--tcw-sub)' }}>{label}</div>
         ) : null}
       </div>
     );
 
     return (
       <Popover content={popContent} position='top' trigger='hover'>
-        <span className='block max-w-full truncate text-gray-600 hover:text-blue-600 cursor-pointer'>
+        <span
+          className='block max-w-full truncate cursor-pointer'
+          style={{ color: 'var(--tcw-body)' }}
+        >
           {accountId}
         </span>
       </Popover>
@@ -168,25 +195,66 @@ const AccountManagement = ({
     ? new Date(passkeyStatus.last_used_at).toLocaleString()
     : t('尚未使用');
 
+  // Binding item renderer
+  const renderBindingItem = (icon, name, accountInfo, actionButton) => (
+    <InnerCard>
+      <div className='flex items-center justify-between gap-3'>
+        <div className='flex items-center flex-1 min-w-0'>
+          <IconBox>{icon}</IconBox>
+          <div className='flex-1 min-w-0'>
+            <div
+              className='font-medium text-sm'
+              style={{ color: 'var(--tcw-heading)' }}
+            >
+              {name}
+            </div>
+            <div className='text-sm truncate'>
+              {accountInfo}
+            </div>
+          </div>
+        </div>
+        <div className='flex-shrink-0'>
+          {actionButton}
+        </div>
+      </div>
+    </InnerCard>
+  );
+
   return (
-    <Card className='!rounded-2xl'>
-      {/* 卡片头部 */}
-      <div className='flex items-center mb-4'>
-        <Avatar size='small' color='teal' className='mr-3 shadow-md'>
+    <div
+      style={{
+        border: '1px solid var(--tcw-card-border)',
+        borderRadius: '12px',
+        background: 'var(--tcw-card-bg)',
+        padding: '24px',
+      }}
+    >
+      {/* Card header */}
+      <div className='flex items-center gap-3 mb-5'>
+        <div
+          className='w-8 h-8 rounded-lg flex items-center justify-center'
+          style={{
+            border: '1px solid var(--tcw-card-border)',
+            color: 'var(--tcw-title)',
+          }}
+        >
           <UserPlus size={16} />
-        </Avatar>
+        </div>
         <div>
-          <Typography.Text className='text-lg font-medium'>
+          <div
+            className='text-base font-semibold'
+            style={{ color: 'var(--tcw-heading)' }}
+          >
             {t('账户管理')}
-          </Typography.Text>
-          <div className='text-xs text-gray-600'>
+          </div>
+          <div className='text-xs' style={{ color: 'var(--tcw-sub)' }}>
             {t('账户绑定、安全设置和身份验证')}
           </div>
         </div>
       </div>
 
       <Tabs type='card' defaultActiveKey='binding'>
-        {/* 账户绑定 Tab */}
+        {/* Account Binding Tab */}
         <TabPane
           tab={
             <div className='flex items-center'>
@@ -197,273 +265,133 @@ const AccountManagement = ({
           itemKey='binding'
         >
           <div className='py-4'>
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-              {/* 邮箱绑定 */}
-              <Card className='!rounded-xl'>
-                <div className='flex items-center justify-between gap-3'>
-                  <div className='flex items-center flex-1 min-w-0'>
-                    <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                      <IconMail
-                        size='default'
-                        className='text-slate-600 dark:text-slate-300'
-                      />
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <div className='font-medium text-gray-900'>
-                        {t('邮箱')}
-                      </div>
-                      <div className='text-sm text-gray-500 truncate'>
-                        {renderAccountInfo(
-                          userState.user?.email,
-                          t('邮箱地址'),
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-shrink-0'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
+              {/* Email */}
+              {renderBindingItem(
+                <IconMail size='default' />,
+                t('邮箱'),
+                renderAccountInfo(userState.user?.email, t('邮箱地址')),
+                <Button
+                  type='primary'
+                  theme='outline'
+                  size='small'
+                  onClick={() => setShowEmailBindModal(true)}
+                >
+                  {isBound(userState.user?.email) ? t('修改绑定') : t('绑定')}
+                </Button>,
+              )}
+
+              {/* WeChat */}
+              {renderBindingItem(
+                <SiWechat size={20} />,
+                t('微信'),
+                !status.wechat_login
+                  ? <span style={{ color: 'var(--tcw-sub)' }}>{t('未启用')}</span>
+                  : isBound(userState.user?.wechat_id)
+                    ? <span style={{ color: 'var(--tcw-body)' }}>{t('已绑定')}</span>
+                    : <span style={{ color: 'var(--tcw-sub)' }}>{t('未绑定')}</span>,
+                <Button
+                  type='primary'
+                  theme='outline'
+                  size='small'
+                  disabled={!status.wechat_login}
+                  onClick={() => setShowWeChatBindModal(true)}
+                >
+                  {isBound(userState.user?.wechat_id)
+                    ? t('修改绑定')
+                    : status.wechat_login
+                      ? t('绑定')
+                      : t('未启用')}
+                </Button>,
+              )}
+
+              {/* GitHub */}
+              {renderBindingItem(
+                <IconGithubLogo size='default' />,
+                t('GitHub'),
+                renderAccountInfo(userState.user?.github_id, t('GitHub ID')),
+                <Button
+                  type='primary'
+                  theme='outline'
+                  size='small'
+                  onClick={() => onGitHubOAuthClicked(status.github_client_id)}
+                  disabled={isBound(userState.user?.github_id) || !status.github_oauth}
+                >
+                  {status.github_oauth ? t('绑定') : t('未启用')}
+                </Button>,
+              )}
+
+              {/* Discord */}
+              {renderBindingItem(
+                <SiDiscord size={20} />,
+                t('Discord'),
+                renderAccountInfo(userState.user?.discord_id, t('Discord ID')),
+                <Button
+                  type='primary'
+                  theme='outline'
+                  size='small'
+                  onClick={() => onDiscordOAuthClicked(status.discord_client_id)}
+                  disabled={isBound(userState.user?.discord_id) || !status.discord_oauth}
+                >
+                  {status.discord_oauth ? t('绑定') : t('未启用')}
+                </Button>,
+              )}
+
+              {/* OIDC */}
+              {renderBindingItem(
+                <IconShield size='default' />,
+                t('OIDC'),
+                renderAccountInfo(userState.user?.oidc_id, t('OIDC ID')),
+                <Button
+                  type='primary'
+                  theme='outline'
+                  size='small'
+                  onClick={() =>
+                    onOIDCClicked(
+                      status.oidc_authorization_endpoint,
+                      status.oidc_client_id,
+                    )
+                  }
+                  disabled={isBound(userState.user?.oidc_id) || !status.oidc_enabled}
+                >
+                  {status.oidc_enabled ? t('绑定') : t('未启用')}
+                </Button>,
+              )}
+
+              {/* Telegram */}
+              {renderBindingItem(
+                <SiTelegram size={20} />,
+                t('Telegram'),
+                renderAccountInfo(userState.user?.telegram_id, t('Telegram ID')),
+                status.telegram_oauth ? (
+                  isBound(userState.user?.telegram_id) ? (
+                    <Button disabled size='small' type='primary' theme='outline'>
+                      {t('已绑定')}
+                    </Button>
+                  ) : (
                     <Button
                       type='primary'
                       theme='outline'
                       size='small'
-                      onClick={() => setShowEmailBindModal(true)}
+                      onClick={() => setShowTelegramBindModal(true)}
                     >
-                      {isBound(userState.user?.email)
-                        ? t('修改绑定')
-                        : t('绑定')}
+                      {t('绑定')}
                     </Button>
-                  </div>
-                </div>
-              </Card>
+                  )
+                ) : (
+                  <Button disabled size='small' type='primary' theme='outline'>
+                    {t('未启用')}
+                  </Button>
+                ),
+              )}
 
-              {/* 微信绑定 */}
-              <Card className='!rounded-xl'>
-                <div className='flex items-center justify-between gap-3'>
-                  <div className='flex items-center flex-1 min-w-0'>
-                    <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                      <SiWechat
-                        size={20}
-                        className='text-slate-600 dark:text-slate-300'
-                      />
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <div className='font-medium text-gray-900'>
-                        {t('微信')}
-                      </div>
-                      <div className='text-sm text-gray-500 truncate'>
-                        {!status.wechat_login
-                          ? t('未启用')
-                          : isBound(userState.user?.wechat_id)
-                            ? t('已绑定')
-                            : t('未绑定')}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-shrink-0'>
-                    <Button
-                      type='primary'
-                      theme='outline'
-                      size='small'
-                      disabled={!status.wechat_login}
-                      onClick={() => setShowWeChatBindModal(true)}
-                    >
-                      {isBound(userState.user?.wechat_id)
-                        ? t('修改绑定')
-                        : status.wechat_login
-                          ? t('绑定')
-                          : t('未启用')}
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-
-              {/* GitHub绑定 */}
-              <Card className='!rounded-xl'>
-                <div className='flex items-center justify-between gap-3'>
-                  <div className='flex items-center flex-1 min-w-0'>
-                    <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                      <IconGithubLogo
-                        size='default'
-                        className='text-slate-600 dark:text-slate-300'
-                      />
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <div className='font-medium text-gray-900'>
-                        {t('GitHub')}
-                      </div>
-                      <div className='text-sm text-gray-500 truncate'>
-                        {renderAccountInfo(
-                          userState.user?.github_id,
-                          t('GitHub ID'),
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-shrink-0'>
-                    <Button
-                      type='primary'
-                      theme='outline'
-                      size='small'
-                      onClick={() =>
-                        onGitHubOAuthClicked(status.github_client_id)
-                      }
-                      disabled={
-                        isBound(userState.user?.github_id) ||
-                        !status.github_oauth
-                      }
-                    >
-                      {status.github_oauth ? t('绑定') : t('未启用')}
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Discord绑定 */}
-              <Card className='!rounded-xl'>
-                <div className='flex items-center justify-between gap-3'>
-                  <div className='flex items-center flex-1 min-w-0'>
-                    <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                      <SiDiscord
-                        size={20}
-                        className='text-slate-600 dark:text-slate-300'
-                      />
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <div className='font-medium text-gray-900'>
-                        {t('Discord')}
-                      </div>
-                      <div className='text-sm text-gray-500 truncate'>
-                        {renderAccountInfo(
-                          userState.user?.discord_id,
-                          t('Discord ID'),
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-shrink-0'>
-                    <Button
-                      type='primary'
-                      theme='outline'
-                      size='small'
-                      onClick={() =>
-                        onDiscordOAuthClicked(status.discord_client_id)
-                      }
-                      disabled={
-                        isBound(userState.user?.discord_id) ||
-                        !status.discord_oauth
-                      }
-                    >
-                      {status.discord_oauth ? t('绑定') : t('未启用')}
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-
-              {/* OIDC绑定 */}
-              <Card className='!rounded-xl'>
-                <div className='flex items-center justify-between gap-3'>
-                  <div className='flex items-center flex-1 min-w-0'>
-                    <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                      <IconShield
-                        size='default'
-                        className='text-slate-600 dark:text-slate-300'
-                      />
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <div className='font-medium text-gray-900'>
-                        {t('OIDC')}
-                      </div>
-                      <div className='text-sm text-gray-500 truncate'>
-                        {renderAccountInfo(
-                          userState.user?.oidc_id,
-                          t('OIDC ID'),
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-shrink-0'>
-                    <Button
-                      type='primary'
-                      theme='outline'
-                      size='small'
-                      onClick={() =>
-                        onOIDCClicked(
-                          status.oidc_authorization_endpoint,
-                          status.oidc_client_id,
-                        )
-                      }
-                      disabled={
-                        isBound(userState.user?.oidc_id) || !status.oidc_enabled
-                      }
-                    >
-                      {status.oidc_enabled ? t('绑定') : t('未启用')}
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Telegram绑定 */}
-              <Card className='!rounded-xl'>
-                <div className='flex items-center justify-between gap-3'>
-                  <div className='flex items-center flex-1 min-w-0'>
-                    <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                      <SiTelegram
-                        size={20}
-                        className='text-slate-600 dark:text-slate-300'
-                      />
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <div className='font-medium text-gray-900'>
-                        {t('Telegram')}
-                      </div>
-                      <div className='text-sm text-gray-500 truncate'>
-                        {renderAccountInfo(
-                          userState.user?.telegram_id,
-                          t('Telegram ID'),
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-shrink-0'>
-                    {status.telegram_oauth ? (
-                      isBound(userState.user?.telegram_id) ? (
-                        <Button
-                          disabled
-                          size='small'
-                          type='primary'
-                          theme='outline'
-                        >
-                          {t('已绑定')}
-                        </Button>
-                      ) : (
-                        <Button
-                          type='primary'
-                          theme='outline'
-                          size='small'
-                          onClick={() => setShowTelegramBindModal(true)}
-                        >
-                          {t('绑定')}
-                        </Button>
-                      )
-                    ) : (
-                      <Button
-                        disabled
-                        size='small'
-                        type='primary'
-                        theme='outline'
-                      >
-                        {t('未启用')}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </Card>
               <Modal
                 title={t('绑定 Telegram')}
                 visible={showTelegramBindModal}
                 onCancel={() => setShowTelegramBindModal(false)}
                 footer={null}
               >
-                <div className='my-3 text-sm text-gray-600'>
+                <div className='my-3 text-sm' style={{ color: 'var(--tcw-body)' }}>
                   {t('点击下方按钮通过 Telegram 完成绑定')}
                 </div>
                 <div className='flex justify-center'>
@@ -476,109 +404,68 @@ const AccountManagement = ({
                 </div>
               </Modal>
 
-              {/* LinuxDO绑定 */}
-              <Card className='!rounded-xl'>
-                <div className='flex items-center justify-between gap-3'>
-                  <div className='flex items-center flex-1 min-w-0'>
-                    <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                      <SiLinux
-                        size={20}
-                        className='text-slate-600 dark:text-slate-300'
-                      />
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <div className='font-medium text-gray-900'>
-                        {t('LinuxDO')}
-                      </div>
-                      <div className='text-sm text-gray-500 truncate'>
-                        {renderAccountInfo(
-                          userState.user?.linux_do_id,
-                          t('LinuxDO ID'),
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-shrink-0'>
-                    <Button
-                      type='primary'
-                      theme='outline'
-                      size='small'
-                      onClick={() =>
-                        onLinuxDOOAuthClicked(status.linuxdo_client_id)
-                      }
-                      disabled={
-                        isBound(userState.user?.linux_do_id) ||
-                        !status.linuxdo_oauth
-                      }
-                    >
-                      {status.linuxdo_oauth ? t('绑定') : t('未启用')}
-                    </Button>
-                  </div>
-                </div>
-              </Card>
+              {/* LinuxDO */}
+              {renderBindingItem(
+                <SiLinux size={20} />,
+                t('LinuxDO'),
+                renderAccountInfo(userState.user?.linux_do_id, t('LinuxDO ID')),
+                <Button
+                  type='primary'
+                  theme='outline'
+                  size='small'
+                  onClick={() => onLinuxDOOAuthClicked(status.linuxdo_client_id)}
+                  disabled={isBound(userState.user?.linux_do_id) || !status.linuxdo_oauth}
+                >
+                  {status.linuxdo_oauth ? t('绑定') : t('未启用')}
+                </Button>,
+              )}
 
-              {/* 自定义 OAuth 提供商绑定 */}
+              {/* Custom OAuth providers */}
               {status.custom_oauth_providers &&
                 status.custom_oauth_providers.map((provider) => {
                   const bound = isCustomOAuthBound(provider.id);
                   const binding = getCustomOAuthBinding(provider.id);
-                  return (
-                    <Card key={provider.slug} className='!rounded-xl'>
-                      <div className='flex items-center justify-between gap-3'>
-                        <div className='flex items-center flex-1 min-w-0'>
-                          <div className='w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 flex-shrink-0'>
-                            {getOAuthProviderIcon(
-                              provider.icon || binding?.provider_icon || '',
-                              20,
-                            )}
-                          </div>
-                          <div className='flex-1 min-w-0'>
-                            <div className='font-medium text-gray-900'>
-                              {provider.name}
-                            </div>
-                            <div className='text-sm text-gray-500 truncate'>
-                              {bound
-                                ? renderAccountInfo(
-                                    binding?.provider_user_id,
-                                    t('{{name}} ID', { name: provider.name }),
-                                  )
-                                : t('未绑定')}
-                            </div>
-                          </div>
-                        </div>
-                        <div className='flex-shrink-0'>
-                          {bound ? (
-                            <Button
-                              type='danger'
-                              theme='outline'
-                              size='small'
-                              loading={customOAuthLoading[provider.id]}
-                              onClick={() =>
-                                handleUnbindCustomOAuth(provider.id, provider.name)
-                              }
-                            >
-                              {t('解绑')}
-                            </Button>
-                          ) : (
-                            <Button
-                              type='primary'
-                              theme='outline'
-                              size='small'
-                              onClick={() => handleBindCustomOAuth(provider)}
-                            >
-                              {t('绑定')}
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </Card>
+                  return renderBindingItem(
+                    getOAuthProviderIcon(
+                      provider.icon || binding?.provider_icon || '',
+                      20,
+                    ),
+                    provider.name,
+                    bound
+                      ? renderAccountInfo(
+                          binding?.provider_user_id,
+                          t('{{name}} ID', { name: provider.name }),
+                        )
+                      : <span style={{ color: 'var(--tcw-sub)' }}>{t('未绑定')}</span>,
+                    bound ? (
+                      <Button
+                        type='danger'
+                        theme='outline'
+                        size='small'
+                        loading={customOAuthLoading[provider.id]}
+                        onClick={() =>
+                          handleUnbindCustomOAuth(provider.id, provider.name)
+                        }
+                      >
+                        {t('解绑')}
+                      </Button>
+                    ) : (
+                      <Button
+                        type='primary'
+                        theme='outline'
+                        size='small'
+                        onClick={() => handleBindCustomOAuth(provider)}
+                      >
+                        {t('绑定')}
+                      </Button>
+                    ),
                   );
                 })}
             </div>
           </div>
         </TabPane>
 
-        {/* 安全设置 Tab */}
+        {/* Security Tab */}
         <TabPane
           tab={
             <div className='flex items-center'>
@@ -589,22 +476,28 @@ const AccountManagement = ({
           itemKey='security'
         >
           <div className='py-4'>
-            <div className='space-y-6'>
+            <div className='space-y-4'>
               <Space vertical className='w-full'>
-                {/* 系统访问令牌 */}
-                <Card className='!rounded-xl w-full'>
+                {/* System access token */}
+                <InnerCard className='w-full'>
                   <div className='flex flex-col sm:flex-row items-start sm:justify-between gap-4'>
                     <div className='flex items-start w-full sm:w-auto'>
-                      <div className='w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mr-4 flex-shrink-0'>
-                        <IconKey size='large' className='text-slate-600' />
-                      </div>
+                      <IconBox>
+                        <IconKey size='large' />
+                      </IconBox>
                       <div className='flex-1'>
-                        <Typography.Title heading={6} className='mb-1'>
+                        <div
+                          className='font-semibold text-sm mb-1'
+                          style={{ color: 'var(--tcw-heading)' }}
+                        >
                           {t('系统访问令牌')}
-                        </Typography.Title>
-                        <Typography.Text type='tertiary' className='text-sm'>
+                        </div>
+                        <div
+                          className='text-xs'
+                          style={{ color: 'var(--tcw-body)' }}
+                        >
                           {t('用于API调用的身份验证令牌，请妥善保管')}
-                        </Typography.Text>
+                        </div>
                         {systemToken && (
                           <div className='mt-3'>
                             <Input
@@ -622,74 +515,76 @@ const AccountManagement = ({
                       type='primary'
                       theme='solid'
                       onClick={generateAccessToken}
-                      className='!bg-slate-600 hover:!bg-slate-700 w-full sm:w-auto'
+                      className='w-full sm:w-auto'
                       icon={<IconKey />}
                     >
                       {systemToken ? t('重新生成') : t('生成令牌')}
                     </Button>
                   </div>
-                </Card>
+                </InnerCard>
 
-                {/* 密码管理 */}
-                <Card className='!rounded-xl w-full'>
+                {/* Password */}
+                <InnerCard className='w-full'>
                   <div className='flex flex-col sm:flex-row items-start sm:justify-between gap-4'>
                     <div className='flex items-start w-full sm:w-auto'>
-                      <div className='w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mr-4 flex-shrink-0'>
-                        <IconLock size='large' className='text-slate-600' />
-                      </div>
+                      <IconBox>
+                        <IconLock size='large' />
+                      </IconBox>
                       <div>
-                        <Typography.Title heading={6} className='mb-1'>
+                        <div
+                          className='font-semibold text-sm mb-1'
+                          style={{ color: 'var(--tcw-heading)' }}
+                        >
                           {t('密码管理')}
-                        </Typography.Title>
-                        <Typography.Text type='tertiary' className='text-sm'>
+                        </div>
+                        <div
+                          className='text-xs'
+                          style={{ color: 'var(--tcw-body)' }}
+                        >
                           {t('定期更改密码可以提高账户安全性')}
-                        </Typography.Text>
+                        </div>
                       </div>
                     </div>
                     <Button
                       type='primary'
                       theme='solid'
                       onClick={() => setShowChangePasswordModal(true)}
-                      className='!bg-slate-600 hover:!bg-slate-700 w-full sm:w-auto'
+                      className='w-full sm:w-auto'
                       icon={<IconLock />}
                     >
                       {t('修改密码')}
                     </Button>
                   </div>
-                </Card>
+                </InnerCard>
 
-                {/* Passkey 设置 */}
-                <Card className='!rounded-xl w-full'>
+                {/* Passkey */}
+                <InnerCard className='w-full'>
                   <div className='flex flex-col sm:flex-row items-start sm:justify-between gap-4'>
                     <div className='flex items-start w-full sm:w-auto'>
-                      <div className='w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mr-4 flex-shrink-0'>
-                        <IconKey size='large' className='text-slate-600' />
-                      </div>
+                      <IconBox>
+                        <IconKey size='large' />
+                      </IconBox>
                       <div>
-                        <Typography.Title heading={6} className='mb-1'>
+                        <div
+                          className='font-semibold text-sm mb-1'
+                          style={{ color: 'var(--tcw-heading)' }}
+                        >
                           {t('Passkey 登录')}
-                        </Typography.Title>
-                        <Typography.Text type='tertiary' className='text-sm'>
+                        </div>
+                        <div
+                          className='text-xs'
+                          style={{ color: 'var(--tcw-body)' }}
+                        >
                           {passkeyEnabled
                             ? t('已启用 Passkey，无需密码即可登录')
                             : t('使用 Passkey 实现免密且更安全的登录体验')}
-                        </Typography.Text>
-                        <div className='mt-2 text-xs text-gray-500 space-y-1'>
+                        </div>
+                        <div className='mt-2 text-xs space-y-1' style={{ color: 'var(--tcw-sub)' }}>
                           <div>
                             {t('最后使用时间')}：{lastUsedLabel}
                           </div>
-                          {/*{passkeyEnabled && (*/}
-                          {/*  <div>*/}
-                          {/*    {t('备份支持')}：*/}
-                          {/*    {passkeyStatus?.backup_eligible*/}
-                          {/*      ? t('支持备份')*/}
-                          {/*      : t('不支持')}*/}
-                          {/*    ，{t('备份状态')}：*/}
-                          {/*    {passkeyStatus?.backup_state ? t('已备份') : t('未备份')}*/}
-                          {/*  </div>*/}
-                          {/*)}*/}
                           {!passkeySupported && (
-                            <div className='text-amber-600'>
+                            <div style={{ color: '#d97706' }}>
                               {t('当前设备不支持 Passkey')}
                             </div>
                           )}
@@ -698,7 +593,7 @@ const AccountManagement = ({
                     </div>
                     <Button
                       type={passkeyEnabled ? 'danger' : 'primary'}
-                      theme={passkeyEnabled ? 'solid' : 'solid'}
+                      theme='solid'
                       onClick={
                         passkeyEnabled
                           ? () => {
@@ -715,7 +610,7 @@ const AccountManagement = ({
                             }
                           : onPasskeyRegister
                       }
-                      className={`w-full sm:w-auto ${passkeyEnabled ? '!bg-slate-500 hover:!bg-slate-600' : ''}`}
+                      className='w-full sm:w-auto'
                       icon={<IconKey />}
                       disabled={!passkeySupported && !passkeyEnabled}
                       loading={
@@ -727,47 +622,50 @@ const AccountManagement = ({
                       {passkeyEnabled ? t('解绑 Passkey') : t('注册 Passkey')}
                     </Button>
                   </div>
-                </Card>
+                </InnerCard>
 
-                {/* 两步验证设置 */}
+                {/* Two-factor authentication */}
                 <TwoFASetting t={t} />
 
-                {/* 危险区域 */}
-                <Card className='!rounded-xl w-full'>
+                {/* Danger zone */}
+                <InnerCard className='w-full'>
                   <div className='flex flex-col sm:flex-row items-start sm:justify-between gap-4'>
                     <div className='flex items-start w-full sm:w-auto'>
-                      <div className='w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mr-4 flex-shrink-0'>
-                        <IconDelete size='large' className='text-slate-600' />
-                      </div>
+                      <IconBox>
+                        <IconDelete size='large' />
+                      </IconBox>
                       <div>
-                        <Typography.Title
-                          heading={6}
-                          className='mb-1 text-slate-700'
+                        <div
+                          className='font-semibold text-sm mb-1'
+                          style={{ color: 'var(--tcw-heading)' }}
                         >
                           {t('删除账户')}
-                        </Typography.Title>
-                        <Typography.Text type='tertiary' className='text-sm'>
+                        </div>
+                        <div
+                          className='text-xs'
+                          style={{ color: 'var(--tcw-body)' }}
+                        >
                           {t('此操作不可逆，所有数据将被永久删除')}
-                        </Typography.Text>
+                        </div>
                       </div>
                     </div>
                     <Button
                       type='danger'
                       theme='solid'
                       onClick={() => setShowAccountDeleteModal(true)}
-                      className='w-full sm:w-auto !bg-slate-500 hover:!bg-slate-600'
+                      className='w-full sm:w-auto'
                       icon={<IconDelete />}
                     >
                       {t('删除账户')}
                     </Button>
                   </div>
-                </Card>
+                </InnerCard>
               </Space>
             </div>
           </div>
         </TabPane>
       </Tabs>
-    </Card>
+    </div>
   );
 };
 

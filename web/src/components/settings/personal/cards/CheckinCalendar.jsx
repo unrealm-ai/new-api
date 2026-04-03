@@ -19,11 +19,9 @@ For commercial licensing, please contact support@quantumnous.com
 
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Card,
   Calendar,
   Button,
   Typography,
-  Avatar,
   Spin,
   Tooltip,
   Collapsible,
@@ -213,7 +211,14 @@ const CheckinCalendar = ({ t, status, turnstileEnabled, turnstileSiteKey }) => {
   };
 
   return (
-    <Card className='!rounded-2xl'>
+    <div
+      style={{
+        border: '1px solid var(--tcw-card-border)',
+        borderRadius: '12px',
+        background: 'var(--tcw-card-bg)',
+        padding: '24px',
+      }}
+    >
       <Modal
         title='Security Check'
         visible={turnstileModalVisible}
@@ -238,27 +243,36 @@ const CheckinCalendar = ({ t, status, turnstileEnabled, turnstileSiteKey }) => {
         </div>
       </Modal>
 
-      {/* 卡片头部 */}
+      {/* Card header */}
       <div className='flex items-center justify-between'>
         <div
-          className='flex items-center flex-1 cursor-pointer'
+          className='flex items-center flex-1 cursor-pointer gap-3'
           onClick={() => setIsCollapsed(!isCollapsed)}
         >
-          <Avatar size='small' color='green' className='mr-3 shadow-md'>
+          <div
+            className='w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0'
+            style={{
+              border: '1px solid var(--tcw-card-border)',
+              color: 'var(--tcw-title)',
+            }}
+          >
             <CalendarCheck size={16} />
-          </Avatar>
+          </div>
           <div className='flex-1'>
             <div className='flex items-center gap-2'>
-              <Typography.Text className='text-lg font-medium'>
+              <span
+                className='text-base font-semibold'
+                style={{ color: 'var(--tcw-heading)' }}
+              >
                 {t('每日签到')}
-              </Typography.Text>
+              </span>
               {isCollapsed ? (
-                <ChevronDown size={16} className='text-gray-400' />
+                <ChevronDown size={16} style={{ color: 'var(--tcw-sub)' }} />
               ) : (
-                <ChevronUp size={16} className='text-gray-400' />
+                <ChevronUp size={16} style={{ color: 'var(--tcw-sub)' }} />
               )}
             </div>
-            <div className='text-xs text-gray-500 dark:text-gray-400'>
+            <div className='text-xs' style={{ color: 'var(--tcw-body)' }}>
               {!initialLoaded
                 ? t('正在加载签到状态...')
                 : checkinData.stats?.checked_in_today
@@ -276,7 +290,6 @@ const CheckinCalendar = ({ t, status, turnstileEnabled, turnstileSiteKey }) => {
           onClick={() => doCheckin()}
           loading={checkinLoading || !initialLoaded}
           disabled={!initialLoaded || checkinData.stats?.checked_in_today}
-          className='!bg-green-600 hover:!bg-green-700'
         >
           {!initialLoaded
             ? t('加载中...')
@@ -288,26 +301,31 @@ const CheckinCalendar = ({ t, status, turnstileEnabled, turnstileSiteKey }) => {
 
       {/* 可折叠内容 */}
       <Collapsible isOpen={isCollapsed === false} keepDOM>
-        {/* 签到统计 */}
+        {/* Stats */}
         <div className='grid grid-cols-3 gap-3 mb-4 mt-4'>
-          <div className='text-center p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg'>
-            <div className='text-xl font-bold text-green-600'>
-              {checkinData.stats?.total_checkins || 0}
+          {[
+            { value: checkinData.stats?.total_checkins || 0, label: t('累计签到') },
+            { value: renderQuota(monthlyQuota, 6), label: t('本月获得') },
+            { value: renderQuota(checkinData.stats?.total_quota || 0, 6), label: t('累计获得') },
+          ].map((stat, i) => (
+            <div
+              key={i}
+              className='text-center p-2.5 rounded-lg'
+              style={{
+                border: '1px solid var(--tcw-card-border)',
+              }}
+            >
+              <div
+                className='text-xl font-bold'
+                style={{ color: 'var(--tcw-heading)' }}
+              >
+                {stat.value}
+              </div>
+              <div className='text-xs' style={{ color: 'var(--tcw-sub)' }}>
+                {stat.label}
+              </div>
             </div>
-            <div className='text-xs text-gray-500'>{t('累计签到')}</div>
-          </div>
-          <div className='text-center p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg'>
-            <div className='text-xl font-bold text-orange-600'>
-              {renderQuota(monthlyQuota, 6)}
-            </div>
-            <div className='text-xs text-gray-500'>{t('本月获得')}</div>
-          </div>
-          <div className='text-center p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg'>
-            <div className='text-xl font-bold text-blue-600'>
-              {renderQuota(checkinData.stats?.total_quota || 0, 6)}
-            </div>
-            <div className='text-xs text-gray-500'>{t('累计获得')}</div>
-          </div>
+          ))}
         </div>
 
         {/* 签到日历 - 使用更紧凑的样式 */}
@@ -366,8 +384,11 @@ const CheckinCalendar = ({ t, status, turnstileEnabled, turnstileSiteKey }) => {
           </div>
         </Spin>
 
-        {/* 签到说明 */}
-        <div className='mt-3 p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg'>
+        {/* Tips */}
+        <div
+          className='mt-3 p-2.5 rounded-lg'
+          style={{ border: '1px solid var(--tcw-card-border)' }}
+        >
           <Typography.Text type='tertiary' className='text-xs'>
             <ul className='list-disc list-inside space-y-0.5'>
               <li>{t('每日签到可获得随机额度奖励')}</li>
@@ -377,7 +398,7 @@ const CheckinCalendar = ({ t, status, turnstileEnabled, turnstileSiteKey }) => {
           </Typography.Text>
         </div>
       </Collapsible>
-    </Card>
+    </div>
   );
 };
 

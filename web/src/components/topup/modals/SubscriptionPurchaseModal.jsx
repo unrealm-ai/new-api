@@ -22,7 +22,6 @@ import {
   Banner,
   Modal,
   Typography,
-  Card,
   Button,
   Select,
   Divider,
@@ -92,55 +91,57 @@ const SubscriptionPurchaseModal = ({
       {plan ? (
         <div className='space-y-4 pb-10'>
           {/* 套餐信息 */}
-          <Card className='!rounded-xl !border-0 bg-slate-50 dark:bg-slate-800'>
+          <div
+            className='rounded-xl p-4'
+            style={{ border: '1px solid var(--tcw-card-border)' }}
+          >
             <div className='space-y-3'>
               <div className='flex justify-between items-center'>
-                <Text strong className='text-slate-700 dark:text-slate-200'>
+                <Text strong style={{ color: 'var(--tcw-heading)' }}>
                   {t('套餐名称')}：
                 </Text>
                 <Typography.Text
                   ellipsis={{ rows: 1, showTooltip: true }}
-                  className='text-slate-900 dark:text-slate-100'
-                  style={{ maxWidth: 200 }}
+                  style={{ color: 'var(--tcw-heading)', maxWidth: 200 }}
                 >
                   {plan.title}
                 </Typography.Text>
               </div>
               <div className='flex justify-between items-center'>
-                <Text strong className='text-slate-700 dark:text-slate-200'>
+                <Text strong style={{ color: 'var(--tcw-heading)' }}>
                   {t('有效期')}：
                 </Text>
                 <div className='flex items-center'>
                   <CalendarClock size={14} className='mr-1 text-slate-500' />
-                  <Text className='text-slate-900 dark:text-slate-100'>
+                  <Text style={{ color: 'var(--tcw-heading)' }}>
                     {formatSubscriptionDuration(plan, t)}
                   </Text>
                 </div>
               </div>
               {formatSubscriptionResetPeriod(plan, t) !== t('不重置') && (
                 <div className='flex justify-between items-center'>
-                  <Text strong className='text-slate-700 dark:text-slate-200'>
+                  <Text strong style={{ color: 'var(--tcw-heading)' }}>
                     {t('重置周期')}：
                   </Text>
-                  <Text className='text-slate-900 dark:text-slate-100'>
+                  <Text style={{ color: 'var(--tcw-heading)' }}>
                     {formatSubscriptionResetPeriod(plan, t)}
                   </Text>
                 </div>
               )}
               <div className='flex justify-between items-center'>
-                <Text strong className='text-slate-700 dark:text-slate-200'>
+                <Text strong style={{ color: 'var(--tcw-heading)' }}>
                   {t('总额度')}：
                 </Text>
                 <div className='flex items-center'>
                   <Package size={14} className='mr-1 text-slate-500' />
                   {totalAmount > 0 ? (
                     <Tooltip content={`${t('原生额度')}：${totalAmount}`}>
-                      <Text className='text-slate-900 dark:text-slate-100'>
+                      <Text style={{ color: 'var(--tcw-heading)' }}>
                         {renderQuota(totalAmount)}
                       </Text>
                     </Tooltip>
                   ) : (
-                    <Text className='text-slate-900 dark:text-slate-100'>
+                    <Text style={{ color: 'var(--tcw-heading)' }}>
                       {t('不限')}
                     </Text>
                   )}
@@ -148,26 +149,26 @@ const SubscriptionPurchaseModal = ({
               </div>
               {plan?.upgrade_group ? (
                 <div className='flex justify-between items-center'>
-                  <Text strong className='text-slate-700 dark:text-slate-200'>
+                  <Text strong style={{ color: 'var(--tcw-heading)' }}>
                     {t('升级分组')}：
                   </Text>
-                  <Text className='text-slate-900 dark:text-slate-100'>
+                  <Text style={{ color: 'var(--tcw-heading)' }}>
                     {plan.upgrade_group}
                   </Text>
                 </div>
               ) : null}
               <Divider margin={8} />
               <div className='flex justify-between items-center'>
-                <Text strong className='text-slate-700 dark:text-slate-200'>
+                <Text strong style={{ color: 'var(--tcw-heading)' }}>
                   {t('应付金额')}：
                 </Text>
-                <Text strong className='text-xl text-purple-600'>
+                <Text strong className='text-xl text-amber-600'>
                   {symbol}
                   {displayPrice}
                 </Text>
               </div>
             </div>
-          </Card>
+          </div>
 
           {/* 支付方式 */}
           {purchaseLimitReached && (

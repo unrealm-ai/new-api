@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React, { useState, useEffect, useContext } from "react";
-import { Card, Select, Typography, Avatar } from "@douyinfe/semi-ui";
+import { Select, Typography } from "@douyinfe/semi-ui";
 import { Languages } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { API, showSuccess, showError } from "../../../../helpers";
@@ -120,38 +120,70 @@ const PreferencesSettings = ({ t }) => {
 	};
 
 	return (
-		<Card className="!rounded-2xl shadow-sm border-0">
+		<div
+			style={{
+				border: '1px solid var(--tcw-card-border)',
+				borderRadius: '12px',
+				background: 'var(--tcw-card-bg)',
+				padding: '24px',
+			}}
+		>
 			{/* Card Header */}
-			<div className="flex items-center mb-4">
-				<Avatar size="small" color="violet" className="mr-3 shadow-md">
+			<div className="flex items-center gap-3 mb-5">
+				<div
+					className="w-8 h-8 rounded-lg flex items-center justify-center"
+					style={{
+						border: '1px solid var(--tcw-card-border)',
+						color: 'var(--tcw-title)',
+					}}
+				>
 					<Languages size={16} />
-				</Avatar>
+				</div>
 				<div>
-					<Typography.Text className="text-lg font-medium">
+					<div
+						className="text-base font-semibold"
+						style={{ color: 'var(--tcw-heading)' }}
+					>
 						{t("偏好设置")}
-					</Typography.Text>
-					<div className="text-xs text-gray-600 dark:text-gray-400">
+					</div>
+					<div className="text-xs" style={{ color: 'var(--tcw-sub)' }}>
 						{t("界面语言和其他个人偏好")}
 					</div>
 				</div>
 			</div>
-			{/* Language Setting Card */}
-			<Card className="!rounded-xl border dark:border-gray-700">
+
+			{/* Language Setting */}
+			<div
+				className="rounded-xl p-4"
+				style={{
+					border: '1px solid var(--tcw-card-border)',
+					background: 'var(--tcw-card-bg)',
+				}}
+			>
 				<div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
 					<div className="flex items-start w-full sm:w-auto">
-						<div className="w-12 h-12 rounded-full bg-violet-50 dark:bg-violet-900/30 flex items-center justify-center mr-4 flex-shrink-0">
-							<Languages
-								size={20}
-								className="text-violet-600 dark:text-violet-400"
-							/>
+						<div
+							className="w-10 h-10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0"
+							style={{
+								border: '1px solid var(--tcw-card-border)',
+								color: 'var(--tcw-title)',
+							}}
+						>
+							<Languages size={18} />
 						</div>
 						<div>
-							<Typography.Title heading={6} className="mb-1">
+							<div
+								className="font-semibold text-sm mb-1"
+								style={{ color: 'var(--tcw-heading)' }}
+							>
 								{t("语言偏好")}
-							</Typography.Title>
-							<Typography.Text type="tertiary" className="text-sm">
+							</div>
+							<div
+								className="text-xs"
+								style={{ color: 'var(--tcw-body)' }}
+							>
 								{t("选择您的首选界面语言，设置将自动保存并同步到所有设备")}
-							</Typography.Text>
+							</div>
 						</div>
 					</div>
 					<Select
@@ -165,17 +197,17 @@ const PreferencesSettings = ({ t }) => {
 						}))}
 					/>
 				</div>
-			</Card>
+			</div>
 
-			{/* Additional info */}
-			<div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+			{/* Hint */}
+			<div className="mt-4 text-xs" style={{ color: 'var(--tcw-sub)' }}>
 				<Typography.Text type="tertiary">
 					{t(
 						"提示：语言偏好会同步到您登录的所有设备，并影响API返回的错误消息语言。",
 					)}
 				</Typography.Text>
 			</div>
-		</Card>
+		</div>
 	);
 };
 

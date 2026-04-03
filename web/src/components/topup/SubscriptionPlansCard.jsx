@@ -518,18 +518,21 @@ const SubscriptionPlansCard = ({
                 ].filter(Boolean);
 
                 return (
-                  <Card
+                  <div
                     key={plan?.id}
-                    className={`!rounded-xl transition-all hover:shadow-lg w-full h-full ${
-                      isPopular ? 'ring-2 ring-purple-500' : ''
-                    }`}
-                    bodyStyle={{ padding: 0 }}
+                    className='rounded-xl transition-all w-full h-full'
+                    style={{
+                      border: isPopular
+                        ? '2px solid var(--semi-color-primary)'
+                        : '1px solid var(--tcw-card-border)',
+                      background: 'var(--tcw-card-bg)',
+                    }}
                   >
                     <div className='p-4 h-full flex flex-col'>
                       {/* 推荐标签 */}
                       {isPopular && (
                         <div className='mb-2'>
-                          <Tag color='purple' shape='circle' size='small'>
+                          <Tag color='amber' shape='circle' size='small'>
                             <Sparkles size={10} className='mr-1' />
                             {t('推荐')}
                           </Tag>
@@ -559,10 +562,10 @@ const SubscriptionPlansCard = ({
                       {/* 价格区域 */}
                       <div className='py-2'>
                         <div className='flex items-baseline justify-start'>
-                          <span className='text-xl font-bold text-purple-600'>
+                          <span className='text-xl font-bold text-amber-600'>
                             {symbol}
                           </span>
-                          <span className='text-3xl font-bold text-purple-600'>
+                          <span className='text-3xl font-bold text-amber-600'>
                             {displayPrice}
                           </span>
                         </div>
@@ -630,7 +633,7 @@ const SubscriptionPlansCard = ({
                         })()}
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 );
               })}
             </div>
@@ -647,7 +650,16 @@ const SubscriptionPlansCard = ({
   return (
     <>
       {withCard ? (
-        <Card className='!rounded-2xl shadow-sm border-0'>{cardContent}</Card>
+        <div
+          style={{
+            border: '1px solid var(--tcw-card-border)',
+            borderRadius: '12px',
+            background: 'var(--tcw-card-bg)',
+            padding: '24px',
+          }}
+        >
+          {cardContent}
+        </div>
       ) : (
         <div className='space-y-3'>{cardContent}</div>
       )}
