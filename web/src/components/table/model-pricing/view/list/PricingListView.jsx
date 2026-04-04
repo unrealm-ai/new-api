@@ -3,7 +3,7 @@ Copyright (C) 2025 QuantumNous
 AGPL-3.0 License - see LICENSE for details.
 */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import {
   Tag,
   Empty,
@@ -12,19 +12,122 @@ import {
   Avatar,
   Badge,
   Table,
+  Button,
+  Tooltip,
+  Toast,
 } from '@douyinfe/semi-ui';
 import {
   IllustrationNoResult,
   IllustrationNoResultDark,
 } from '@douyinfe/semi-illustrations';
-import { ChevronRight, Info, Link2, Coins } from 'lucide-react';
+import { ChevronRight, Info, Link2, Coins, Code2, Copy, Check } from 'lucide-react';
 import {
   stringToColor,
   calculateModelPrice,
   getModelPriceItems,
   getLobeHubIcon,
+  copy,
 } from '../../../../../helpers';
 import { useIsMobile } from '../../../../../hooks/common/useIsMobile';
+import { StatusContext } from '../../../../../context/Status';
+
+/* ─────────────────────────────────────────────
+   Code Example Section — curl / Python / Node.js
+   ───────────────────────────────────────────── */
+const CODE_TABS = ['curl', 'Python', 'Node.js'];
+
+const generateCodeExamples = (modelName, serverAddress) => {
+  const baseUrl = serverAddress || window.location.origin;
+  return {
+    curl: `curl ${baseUrl}/v1/chat/completions \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer sk-xxx" \\
+  -d '{
+    "model": "${modelName}",
+    "messages": [
+      {"role": "user", "content": "Hello!"}
+    ]
+  }'`,
+    Python: `from openai import OpenAI
+
+client = OpenAI(
+    base_url="${baseUrl}/v1",
+    api_key="sk-xxx"
+)
+
+response = client.chat.completions.create(
+    model="${modelName}",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+print(response.choices[0].message.content)`,
+    'Node.js': `import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "${baseUrl}/v1",
+  apiKey: "sk-xxx",
+});
+
+const response = await client.chat.completions.create({
+  model: "${modelName}",
+  messages: [{ role: "user", content: "Hello!" }],
+});
+
+console.log(response.choices[0].message.content);`,
+  };
+};
+
+const CodeExampleSection = ({ modelName, serverAddress, t }) => {
+  const [activeTab, setActiveTab] = useState('curl');
+  const [copied, setCopied] = useState(false);
+  const examples = useMemo(
+    () => generateCodeExamples(modelName, serverAddress),
+    [modelName, serverAddress],
+  );
+
+  const handleCopy = async () => {
+    const success = await copy(examples[activeTab]);
+    if (success) {
+      setCopied(true);
+      Toast.success(t('已复制到剪贴板'));
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <div className='pricing-detail-section mt-3'>
+      <div className='pricing-detail-section-header'>
+        <Code2 size={14} />
+        <span>{t('代码示例')}</span>
+      </div>
+      <div className='pricing-code-block'>
+        {/* Tab bar + Copy button */}
+        <div className='pricing-code-header'>
+          <div className='pricing-code-tabs'>
+            {CODE_TABS.map((tab) => (
+              <button
+                key={tab}
+                className={`pricing-code-tab ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <Tooltip content={copied ? t('已复制') : t('复制代码')}>
+            <button className='pricing-code-copy' onClick={handleCopy}>
+              {copied ? <Check size={14} /> : <Copy size={14} />}
+            </button>
+          </Tooltip>
+        </div>
+        {/* Code content */}
+        <pre className='pricing-code-content'>
+          <code>{examples[activeTab]}</code>
+        </pre>
+      </div>
+    </div>
+  );
+};
 
 /* ─────────────────────────────────────────────
    Inline Detail Panel — replaces old SideSheet
@@ -41,6 +144,7 @@ const InlineDetailPanel = ({
   usableGroup,
   endpointMap,
   autoGroups,
+  serverAddress,
   t,
 }) => {
   const modelEnableGroups = Array.isArray(model?.enable_groups)
@@ -265,6 +369,13 @@ const InlineDetailPanel = ({
           className='pricing-detail-table'
         />
       </div>
+
+      {/* Code Example */}
+      <CodeExampleSection
+        modelName={model?.model_name || ''}
+        serverAddress={serverAddress}
+        t={t}
+      />
     </div>
   );
 };
@@ -297,6 +408,8 @@ const PricingListView = ({
 }) => {
   const [expandedKey, setExpandedKey] = useState(null);
   const isMobile = useIsMobile();
+  const [statusState] = useContext(StatusContext);
+  const serverAddress = statusState?.status?.server_address || window.location.origin;
 
   const startIndex = (currentPage - 1) * pageSize;
   const paginatedModels = useMemo(
@@ -532,6 +645,7 @@ const PricingListView = ({
                   usableGroup={usableGroup}
                   endpointMap={endpointMap}
                   autoGroups={autoGroups}
+                  serverAddress={serverAddress}
                   t={t}
                 />
               )}
