@@ -2371,6 +2371,262 @@ html.dark .pricing-filter-popover {
   box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.4) !important;
 }
 
+/* ── Pricing List View ─────────────────────────────── */
+
+.pricing-list-container {
+  border-radius: 12px;
+  border: 1px solid var(--tcw-card-border);
+  background: var(--tcw-card-bg);
+  overflow: hidden;
+}
+
+/* Grid columns */
+.pricing-list-header,
+.pricing-list-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 90px 150px 130px 60px 110px 110px;
+  align-items: center;
+  gap: 0;
+}
+
+/* Header */
+.pricing-list-header {
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--tcw-card-border);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tcw-sub);
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  background: transparent;
+  user-select: none;
+}
+
+/* Row */
+.pricing-list-row {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--tcw-card-border);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.pricing-list-row:hover {
+  background: var(--tcw-card-bg-hover);
+}
+
+.pricing-list-row.expanded {
+  background: var(--tcw-card-bg-hover);
+  border-bottom-color: transparent;
+}
+
+/* Chevron */
+.pricing-list-col-expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pricing-list-chevron {
+  color: var(--tcw-sub);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.15s ease;
+}
+
+.pricing-list-chevron.rotated {
+  transform: rotate(90deg);
+  color: var(--semi-color-primary);
+}
+
+.pricing-list-row:hover .pricing-list-chevron {
+  color: var(--tcw-title);
+}
+
+/* Model icon wrapper */
+.pricing-list-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Model name */
+.pricing-list-model-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--tcw-heading);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.pricing-list-model-name:hover {
+  color: var(--semi-color-primary);
+}
+
+/* Column overflow */
+.pricing-list-col-model,
+.pricing-list-col-callprice,
+.pricing-list-col-detail,
+.pricing-list-col-tags,
+.pricing-list-col-billing,
+.pricing-list-col-price {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Cell typography */
+.pricing-list-cell-text {
+  font-size: 13px;
+  color: var(--tcw-body);
+}
+
+.pricing-list-cell-sub {
+  font-size: 12px;
+  color: var(--tcw-sub);
+}
+
+/* Billing badge */
+.pricing-list-billing-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tcw-body);
+}
+
+.pricing-list-billing-badge.accent {
+  color: var(--semi-color-primary);
+}
+
+/* Price values */
+.pricing-list-price-value {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--tcw-heading);
+}
+
+.pricing-list-suffix-min {
+  font-size: 10px;
+  font-weight: 400;
+  margin-left: 2px;
+  color: var(--semi-color-danger);
+}
+
+/* ── Inline Detail Panel ─────────────────────────── */
+
+.pricing-detail-panel {
+  padding: 16px 20px 20px 56px;
+  border-bottom: 1px solid var(--tcw-card-border);
+  background: var(--tcw-card-bg-hover);
+  animation: pricingDetailSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pricingDetailSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Detail grid — 2 columns on desktop */
+.pricing-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Detail section */
+.pricing-detail-section {
+  /* No card wrapper — flat layout */
+}
+
+.pricing-detail-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tcw-sub);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--tcw-card-border);
+}
+
+/* Detail pricing table — strip Semi Card wrapper */
+.pricing-detail-table .semi-card,
+.pricing-detail-table.semi-card {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.pricing-detail-table .semi-table-wrapper {
+  border: 1px solid var(--tcw-card-border) !important;
+  border-radius: 8px !important;
+}
+
+.pricing-detail-table .semi-table-thead th {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: var(--tcw-sub) !important;
+  background: transparent !important;
+}
+
+/* ── Mobile list ── */
+@media (max-width: 767px) {
+  .pricing-list-header,
+  .pricing-list-row {
+    grid-template-columns: 28px 1fr 50px 76px 76px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .pricing-list-header {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .pricing-list-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .pricing-list-col-callprice,
+  .pricing-list-col-detail,
+  .pricing-list-col-tags {
+    display: none;
+  }
+
+  .pricing-list-model-name {
+    font-size: 12.5px;
+  }
+
+  .pricing-list-price-value {
+    font-size: 12px;
+  }
+
+  .pricing-detail-panel {
+    padding: 12px;
+  }
+
+  .pricing-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Mobile ── */
 @media (max-width: 767px) {
   .pricing-hero {

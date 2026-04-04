@@ -27,8 +27,6 @@ import {
   Tag,
   Plug,
   ChevronDown,
-  LayoutGrid,
-  Table2,
 } from 'lucide-react';
 import PricingVendors from '../filter/PricingVendors';
 import PricingGroups from '../filter/PricingGroups';
@@ -75,8 +73,6 @@ const PricingFilterBar = memo(
     siteDisplayType,
     showRatio,
     setShowRatio,
-    viewMode,
-    setViewMode,
     tokenUnit,
     setTokenUnit,
     currentPage,
@@ -119,10 +115,6 @@ const PricingFilterBar = memo(
       }
     }, [copyText, selectedRowKeys]);
 
-    const handleViewModeToggle = useCallback(() => {
-      setViewMode?.(viewMode === 'table' ? 'card' : 'table');
-    }, [viewMode, setViewMode]);
-
     const handleTokenUnitToggle = useCallback(() => {
       setTokenUnit?.(tokenUnit === 'K' ? 'M' : 'K');
     }, [tokenUnit, setTokenUnit]);
@@ -133,7 +125,6 @@ const PricingFilterBar = memo(
         setShowWithRecharge,
         setCurrency,
         setShowRatio,
-        setViewMode,
         setFilterGroup,
         setFilterQuotaType,
         setFilterEndpointType,
@@ -144,7 +135,7 @@ const PricingFilterBar = memo(
       });
     }, [
       handleChange, setShowWithRecharge, setCurrency, setShowRatio,
-      setViewMode, setFilterGroup, setFilterQuotaType, setFilterEndpointType,
+      setFilterGroup, setFilterQuotaType, setFilterEndpointType,
       setFilterVendor, setFilterTag, setCurrentPage, setTokenUnit,
     ]);
 
@@ -282,7 +273,6 @@ const PricingFilterBar = memo(
       setShowWithRecharge,
       setCurrency,
       setShowRatio,
-      setViewMode,
       setFilterGroup,
       handleGroupClick,
       setFilterQuotaType,
@@ -335,24 +325,6 @@ const PricingFilterBar = memo(
 
             {!isMobile && (
               <>
-                {/* 视图切换 */}
-                <div className='pricing-view-toggle'>
-                  <button
-                    className={`pricing-view-toggle-btn ${viewMode === 'card' ? 'active' : ''}`}
-                    onClick={() => setViewMode?.('card')}
-                    title={t('卡片视图')}
-                  >
-                    <LayoutGrid size={16} />
-                  </button>
-                  <button
-                    className={`pricing-view-toggle-btn ${viewMode === 'table' ? 'active' : ''}`}
-                    onClick={() => setViewMode?.('table')}
-                    title={t('表格视图')}
-                  >
-                    <Table2 size={16} />
-                  </button>
-                </div>
-
                 {/* Token 单位 */}
                 <button
                   className='pricing-chip-btn'
