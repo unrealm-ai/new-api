@@ -2537,7 +2537,28 @@ html.dark .pricing-filter-popover {
   }
 }
 
-/* Detail grid — 2 columns on desktop */
+/* Detail split — Left (info) | Right (code) */
+.pricing-detail-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.pricing-detail-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.pricing-detail-right {
+  min-width: 0;
+  position: sticky;
+  top: 80px;
+}
+
+/* Keep for backward compat */
 .pricing-detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2585,17 +2606,12 @@ html.dark .pricing-filter-popover {
   background: transparent !important;
 }
 
-/* ── Code Example Block ── */
+/* ── Code Example Block — uses TCW tokens for theme consistency ── */
 .pricing-code-block {
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--tcw-card-border);
-  background: #1a1a1e;
-}
-
-html.dark .pricing-code-block {
-  background: #0c0c0e;
-  border-color: rgba(255, 255, 255, 0.06);
+  background: var(--tcw-card-bg);
 }
 
 .pricing-code-header {
@@ -2603,12 +2619,7 @@ html.dark .pricing-code-block {
   align-items: center;
   justify-content: space-between;
   padding: 0 4px 0 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: #111114;
-}
-
-html.dark .pricing-code-header {
-  background: #08080a;
+  border-bottom: 1px solid var(--tcw-card-border);
 }
 
 .pricing-code-tabs {
@@ -2621,7 +2632,7 @@ html.dark .pricing-code-header {
   font-size: 12px;
   font-weight: 500;
   font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--tcw-sub);
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
@@ -2630,12 +2641,12 @@ html.dark .pricing-code-header {
 }
 
 .pricing-code-tab:hover {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--tcw-title);
 }
 
 .pricing-code-tab.active {
-  color: #f59e0b;
-  border-bottom-color: #f59e0b;
+  color: var(--semi-color-primary);
+  border-bottom-color: var(--semi-color-primary);
 }
 
 .pricing-code-copy {
@@ -2647,14 +2658,14 @@ html.dark .pricing-code-header {
   border-radius: 6px;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--tcw-sub);
   cursor: pointer;
   transition: color 0.15s, background 0.15s;
 }
 
 .pricing-code-copy:hover {
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--tcw-heading);
+  background: var(--tcw-card-bg-hover);
 }
 
 .pricing-code-content {
@@ -2663,7 +2674,8 @@ html.dark .pricing-code-header {
   font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
   font-size: 13px;
   line-height: 1.6;
-  color: #d4d4d4;
+  color: var(--tcw-heading);
+  background: var(--tcw-card-bg);
   overflow-x: auto;
   white-space: pre;
   tab-size: 2;
@@ -2706,8 +2718,16 @@ html.dark .pricing-code-header {
     padding: 12px;
   }
 
+  .pricing-detail-split {
+    grid-template-columns: 1fr;
+  }
+
   .pricing-detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pricing-detail-right {
+    position: static;
   }
 }
 

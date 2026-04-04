@@ -20,7 +20,7 @@ import {
   IllustrationNoResult,
   IllustrationNoResultDark,
 } from '@douyinfe/semi-illustrations';
-import { ChevronRight, Info, Link2, Coins, Code2, Copy, Check } from 'lucide-react';
+import { ChevronRight, Info, Link2, Coins, Code2, Copy, Check, Globe } from 'lucide-react';
 import {
   stringToColor,
   calculateModelPrice,
@@ -95,7 +95,7 @@ const CodeExampleSection = ({ modelName, serverAddress, t }) => {
   };
 
   return (
-    <div className='pricing-detail-section mt-3'>
+    <div className='pricing-detail-section'>
       <div className='pricing-detail-section-header'>
         <Code2 size={14} />
         <span>{t('代码示例')}</span>
@@ -264,118 +264,137 @@ const InlineDetailPanel = ({
 
   return (
     <div className='pricing-detail-panel'>
-      {/* Three columns on desktop: Description | Endpoints | Pricing */}
-      <div className='pricing-detail-grid'>
-        {/* Column 1: Basic Info */}
-        <div className='pricing-detail-section'>
-          <div className='pricing-detail-section-header'>
-            <Info size={14} />
-            <span>{t('基本信息')}</span>
-          </div>
-          {description ? (
-            <p className='text-sm leading-relaxed' style={{ color: 'var(--tcw-body)' }}>
-              {description}
-            </p>
-          ) : (
-            <p className='text-sm' style={{ color: 'var(--tcw-sub)' }}>
-              {t('暂无模型描述')}
-            </p>
-          )}
-          {tags.length > 0 && (
-            <div className='flex flex-wrap gap-1 mt-2'>
-              {tags.map((tag, idx) => (
-                <Tag
-                  key={idx}
-                  color={stringToColor(tag)}
-                  shape='circle'
-                  size='small'
-                >
-                  {tag}
-                </Tag>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Column 2: Endpoints */}
-        {endpoints.length > 0 && (
+      {/* Two-column layout: Left (info) | Right (code) */}
+      <div className='pricing-detail-split'>
+        {/* ── Left: Info + Endpoints + Pricing ── */}
+        <div className='pricing-detail-left'>
+          {/* Basic Info */}
           <div className='pricing-detail-section'>
             <div className='pricing-detail-section-header'>
-              <Link2 size={14} />
-              <span>{t('API端点')}</span>
+              <Info size={14} />
+              <span>{t('基本信息')}</span>
             </div>
-            <div className='space-y-1.5'>
-              {endpoints.map((ep) => (
-                <div
-                  key={ep.type}
-                  className='flex items-center justify-between text-xs'
-                >
-                  <span className='flex items-center gap-1.5'>
-                    <Badge dot type='success' />
-                    <span style={{ color: 'var(--tcw-heading)' }}>{ep.type}</span>
+            {description ? (
+              <p className='text-sm leading-relaxed' style={{ color: 'var(--tcw-body)' }}>
+                {description}
+              </p>
+            ) : (
+              <p className='text-sm' style={{ color: 'var(--tcw-sub)' }}>
+                {t('暂无模型描述')}
+              </p>
+            )}
+            {tags.length > 0 && (
+              <div className='flex flex-wrap gap-1 mt-2'>
+                {tags.map((tag, idx) => (
+                  <Tag key={idx} color={stringToColor(tag)} shape='circle' size='small'>
+                    {tag}
+                  </Tag>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Base URL */}
+          <div className='pricing-detail-section'>
+            <div className='pricing-detail-section-header'>
+              <Globe size={14} />
+              <span>Base URL</span>
+            </div>
+            <div
+              className='flex items-center gap-2 px-3 py-2 rounded-lg font-mono text-sm'
+              style={{
+                border: '1px solid var(--tcw-card-border)',
+                color: 'var(--tcw-heading)',
+                background: 'var(--tcw-card-bg)',
+              }}
+            >
+              <span className='truncate'>{serverAddress}</span>
+              <button
+                className='flex-shrink-0 p-1 rounded'
+                style={{ color: 'var(--tcw-sub)' }}
+                onClick={() => {
+                  copy(serverAddress + '/v1');
+                  Toast.success(t('已复制到剪贴板'));
+                }}
+              >
+                <Copy size={13} />
+              </button>
+            </div>
+          </div>
+
+          {/* Endpoints */}
+          {endpoints.length > 0 && (
+            <div className='pricing-detail-section'>
+              <div className='pricing-detail-section-header'>
+                <Link2 size={14} />
+                <span>{t('API端点')}</span>
+              </div>
+              <div className='space-y-1.5'>
+                {endpoints.map((ep) => (
+                  <div key={ep.type} className='flex items-center justify-between text-xs'>
+                    <span className='flex items-center gap-1.5'>
+                      <Badge dot type='success' />
+                      <span style={{ color: 'var(--tcw-heading)' }}>{ep.type}</span>
+                      {ep.path && (
+                        <span className='font-mono' style={{ color: 'var(--tcw-sub)' }}>
+                          {ep.path}
+                        </span>
+                      )}
+                    </span>
                     {ep.path && (
-                      <span
-                        className='font-mono'
-                        style={{ color: 'var(--tcw-sub)' }}
-                      >
-                        {ep.path}
+                      <span className='font-mono text-[10px]' style={{ color: 'var(--tcw-sub)' }}>
+                        {ep.method}
                       </span>
                     )}
-                  </span>
-                  {ep.path && (
-                    <span
-                      className='font-mono text-[10px]'
-                      style={{ color: 'var(--tcw-sub)' }}
-                    >
-                      {ep.method}
-                    </span>
-                  )}
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
 
-      {/* Full-width: Pricing table */}
-      <div className='pricing-detail-section mt-3'>
-        <div className='pricing-detail-section-header'>
-          <Coins size={14} />
-          <span>{t('分组价格')}</span>
+          {/* Pricing table */}
+          <div className='pricing-detail-section'>
+            <div className='pricing-detail-section-header'>
+              <Coins size={14} />
+              <span>{t('分组价格')}</span>
+            </div>
+            {autoChain.length > 0 && (
+              <div className='flex flex-wrap items-center gap-1 mb-2'>
+                <span className='text-xs' style={{ color: 'var(--tcw-sub)' }}>
+                  {t('auto分组调用链路')} →
+                </span>
+                {autoChain.map((g, idx) => (
+                  <React.Fragment key={g}>
+                    <Tag color='white' size='small' shape='circle'>
+                      {g}{t('分组')}
+                    </Tag>
+                    {idx < autoChain.length - 1 && (
+                      <span className='text-xs' style={{ color: 'var(--tcw-sub)' }}>→</span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
+            <Table
+              dataSource={tableData}
+              columns={tableColumns}
+              pagination={false}
+              size='small'
+              bordered={false}
+              className='pricing-detail-table'
+            />
+          </div>
         </div>
-        {autoChain.length > 0 && (
-          <div className='flex flex-wrap items-center gap-1 mb-2'>
-            <span className='text-xs' style={{ color: 'var(--tcw-sub)' }}>
-              {t('auto分组调用链路')} →
-            </span>
-            {autoChain.map((g, idx) => (
-              <React.Fragment key={g}>
-                <Tag color='white' size='small' shape='circle'>
-                  {g}{t('分组')}
-                </Tag>
-                {idx < autoChain.length - 1 && (
-                  <span className='text-xs' style={{ color: 'var(--tcw-sub)' }}>→</span>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        )}
-        <Table
-          dataSource={tableData}
-          columns={tableColumns}
-          pagination={false}
-          size='small'
-          bordered={false}
-          className='pricing-detail-table'
-        />
-      </div>
 
-      {/* Code Example */}
-      <CodeExampleSection
-        modelName={model?.model_name || ''}
-        serverAddress={serverAddress}
-        t={t}
-      />
+        {/* ── Right: Code Example ── */}
+        <div className='pricing-detail-right'>
+          <CodeExampleSection
+            modelName={model?.model_name || ''}
+            serverAddress={serverAddress}
+            t={t}
+          />
+        </div>
+      </div>
     </div>
   );
 };
