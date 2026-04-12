@@ -1995,7 +1995,7 @@ html.dark {
   position: relative;
 }
 
-/* Noise texture overlay — same as ToChord Way */
+/* Noise texture overlay — same as TaoLat Way */
 .pricing-page::after {
   content: '';
   position: fixed;
@@ -3143,7 +3143,7 @@ html.dark .pricing-filter-popover {
   }
 }
 
-/* ── The ToChord Way — Bento Grid ──────────────────────────── */
+/* ── The TaoLat Way — Bento Grid ──────────────────────────── */
 
 /* -- Theme tokens (light) -- */
 :root {

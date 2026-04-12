@@ -68,7 +68,7 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
           ]
         : []),
       {
-        text: t('关于拓弦'),
+        text: t('关于TaoLat'),
         itemKey: 'about',
         to: '/about',
       },

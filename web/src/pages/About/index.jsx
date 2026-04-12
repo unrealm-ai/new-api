@@ -58,7 +58,7 @@ const About = () => {
     <div className='w-full overflow-x-hidden'>
       <div className='landing-page'>
 
-        {/* ── The ToChord Way — Bento Grid ────────────────────────── */}
+        {/* ── The TaoLat Way — Bento Grid ────────────────────────── */}
         <section className='tcw-section w-full'>
           <div className='tcw-glow' />
 
@@ -81,7 +81,7 @@ const About = () => {
                   className='text-3xl md:text-4xl font-extrabold tracking-tight'
                   style={{ color: 'var(--tcw-heading)' }}
                 >
-                  The <span style={{ color: '#f59e0b' }}>ToChord</span> Way
+                  The <span style={{ color: '#f59e0b' }}>TaoLat</span> Way
                 </h2>
               </div>
               <p

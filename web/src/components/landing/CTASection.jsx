@@ -20,7 +20,7 @@ const CTASection = () => {
           <div className='cta-orb cta-orb-2' />
 
           <div className='cta-content'>
-            <h2 className='cta-title'>{t('开始接入拓弦')}</h2>
+            <h2 className='cta-title'>{t('开始接入TaoLat')}</h2>
             <p className='cta-subtitle'>
               {t('几分钟完成接入，一个接口调用所有 AI 模型')}
             </p>
