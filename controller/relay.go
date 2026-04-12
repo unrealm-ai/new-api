@@ -67,6 +67,13 @@ func geminiRelayHandler(c *gin.Context, info *relaycommon.RelayInfo) *types.NewA
 func Relay(c *gin.Context, relayFormat types.RelayFormat) {
 
 	requestId := c.GetString(common.RequestIdKey)
+	auditState := common.NewRequestAuditState(requestId)
+	common.AttachRequestAuditState(c, auditState)
+	defer func() {
+		if err := model.PersistLogRequestFromContext(c); err != nil {
+			common.SysError("persist log request failed: " + err.Error())
+		}
+	}()
 	//group := common.GetContextKeyString(c, constant.ContextKeyUsingGroup)
 	//originalModel := common.GetContextKeyString(c, constant.ContextKeyOriginalModel)
 
@@ -83,6 +90,9 @@ func Relay(c *gin.Context, relayFormat types.RelayFormat) {
 			return
 		}
 		defer ws.Close()
+	}
+	if relayFormat != types.RelayFormatOpenAIRealtime {
+		c.Writer = middleware.NewAuditResponseWriter(c.Writer, auditState)
 	}
 
 	defer func() {
@@ -114,6 +124,9 @@ func Relay(c *gin.Context, relayFormat types.RelayFormat) {
 			newAPIError = types.NewError(err, types.ErrorCodeInvalidRequest)
 		}
 		return
+	}
+	if err = common.CaptureClientRequestRaw(c); err != nil {
+		common.SysError("capture client request raw failed: " + err.Error())
 	}
 
 	relayInfo, err := relaycommon.GenRelayInfo(c, relayFormat, request, ws)
@@ -188,6 +201,7 @@ func Relay(c *gin.Context, relayFormat types.RelayFormat) {
 
 	for ; retryParam.GetRetry() <= common.RetryTimes; retryParam.IncreaseRetry() {
 		relayInfo.RetryIndex = retryParam.GetRetry()
+		auditState.SetRetryCount(retryParam.GetRetry())
 		channel, channelErr := getChannel(c, relayInfo, retryParam)
 		if channelErr != nil {
 			logger.LogError(c, channelErr.Error())
