@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - weizhi-maas
+      - taolat-dev
   workflow_dispatch:
     inputs:
       name:
