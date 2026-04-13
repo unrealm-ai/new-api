@@ -130,6 +130,13 @@ func RecordErrorLog(c *gin.Context, userId int, channelId int, modelName string,
 	err := LOG_DB.Create(log).Error
 	if err != nil {
 		logger.LogError(c, "failed to record log: "+err.Error())
+	} else {
+		if state := common.GetRequestAuditState(c); state != nil {
+			state.SetLogID(log.Id)
+			if persistErr := PersistLogRequestFromState(state); persistErr != nil {
+				logger.LogError(c, "failed to persist request_audit: "+persistErr.Error())
+			}
+		}
 	}
 }
 
@@ -191,6 +198,13 @@ func RecordConsumeLog(c *gin.Context, userId int, params RecordConsumeLogParams)
 	err := LOG_DB.Create(log).Error
 	if err != nil {
 		logger.LogError(c, "failed to record log: "+err.Error())
+	} else {
+		if state := common.GetRequestAuditState(c); state != nil {
+			state.SetLogID(log.Id)
+			if persistErr := PersistLogRequestFromState(state); persistErr != nil {
+				logger.LogError(c, "failed to persist request_audit: "+persistErr.Error())
+			}
+		}
 	}
 	if common.DataExportEnabled {
 		gopool.Go(func() {
@@ -324,6 +338,15 @@ func GetAllLogs(logType int, startTimestamp int64, endTimestamp int64, modelName
 	}
 
 	return logs, total, err
+}
+
+func GetLogByID(logID int) (*Log, error) {
+	var logRecord Log
+	err := LOG_DB.Where("id = ?", logID).First(&logRecord).Error
+	if err != nil {
+		return nil, err
+	}
+	return &logRecord, nil
 }
 
 const logSearchCountLimit = 10000

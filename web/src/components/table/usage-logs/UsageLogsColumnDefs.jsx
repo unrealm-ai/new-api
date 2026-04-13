@@ -20,6 +20,7 @@ For commercial licensing, please contact support@quantumnous.com
 import React from 'react';
 import {
   Avatar,
+  Button,
   Space,
   Tag,
   Tooltip,
@@ -465,6 +466,7 @@ export const getLogsColumns = ({
   copyText,
   showUserInfoFunc,
   openChannelAffinityUsageCacheModal,
+  openRequestAuditModal,
   isAdminUser,
   billingDisplayMode = 'price',
 }) => {
@@ -891,25 +893,52 @@ export const getLogsColumns = ({
           billingDisplayMode,
           t,
         );
+        const canViewRequestAudit =
+          typeof openRequestAuditModal === 'function' &&
+          Boolean(record?.request_id) &&
+          (record?.type === 2 || record?.type === 5);
+
+        const requestAuditButton = canViewRequestAudit ? (
+          <Button
+            size='small'
+            theme='borderless'
+            type='primary'
+            onClick={(event) => {
+              event.stopPropagation();
+              openRequestAuditModal(record);
+            }}
+            style={{ paddingLeft: 0 }}
+          >
+            {t('查看请求详情')}
+          </Button>
+        ) : null;
 
         if (!detailSummary) {
           return (
-            <Typography.Paragraph
-              ellipsis={{
-                rows: 2,
-                showTooltip: {
-                  type: 'popover',
-                  opts: { style: { width: 240 } },
-                },
-              }}
-              style={{ maxWidth: 200, marginBottom: 0 }}
-            >
-              {text}
-            </Typography.Paragraph>
+            <Space vertical align='start' spacing={8}>
+              {requestAuditButton}
+              <Typography.Paragraph
+                ellipsis={{
+                  rows: 2,
+                  showTooltip: {
+                    type: 'popover',
+                    opts: { style: { width: 240 } },
+                  },
+                }}
+                style={{ maxWidth: 200, marginBottom: 0 }}
+              >
+                {text}
+              </Typography.Paragraph>
+            </Space>
           );
         }
 
-        return renderCompactDetailSummary(detailSummary.segments);
+        return (
+          <Space vertical align='start' spacing={8}>
+            {requestAuditButton}
+            {renderCompactDetailSummary(detailSummary.segments)}
+          </Space>
+        );
       },
     },
   ];

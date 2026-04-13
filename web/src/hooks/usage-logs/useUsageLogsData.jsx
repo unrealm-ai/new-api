@@ -184,6 +184,10 @@ export const useLogsData = () => {
     useState(null);
   const [showParamOverrideModal, setShowParamOverrideModal] = useState(false);
   const [paramOverrideTarget, setParamOverrideTarget] = useState(null);
+  const [showRequestAuditModal, setShowRequestAuditModal] = useState(false);
+  const [requestAuditLoading, setRequestAuditLoading] = useState(false);
+  const [requestAuditTarget, setRequestAuditTarget] = useState(null);
+  const [requestAuditData, setRequestAuditData] = useState(null);
 
   // Initialize default column visibility
   const initDefaultColumns = () => {
@@ -360,6 +364,36 @@ export const useLogsData = () => {
       requestPath: other?.request_path || '',
     });
     setShowParamOverrideModal(true);
+  };
+
+  const closeRequestAuditModal = () => {
+    setShowRequestAuditModal(false);
+    setRequestAuditLoading(false);
+    setRequestAuditTarget(null);
+    setRequestAuditData(null);
+  };
+
+  const openRequestAuditModal = async (log) => {
+    if (!log?.id) {
+      return;
+    }
+    setRequestAuditTarget(log);
+    setRequestAuditData(null);
+    setShowRequestAuditModal(true);
+    setRequestAuditLoading(true);
+    try {
+      const res = await API.get(`/api/request_audit/${log.id}`);
+      const { success, message, data } = res.data;
+      if (success) {
+        setRequestAuditData(data);
+      } else {
+        showError(message);
+      }
+    } catch (error) {
+      showError(error?.message || t('加载请求详情失败'));
+    } finally {
+      setRequestAuditLoading(false);
+    }
   };
 
   // Format logs data
@@ -846,6 +880,11 @@ export const useLogsData = () => {
     showParamOverrideModal,
     setShowParamOverrideModal,
     paramOverrideTarget,
+    showRequestAuditModal,
+    setShowRequestAuditModal,
+    requestAuditLoading,
+    requestAuditTarget,
+    requestAuditData,
 
     // Functions
     loadLogs,
@@ -858,6 +897,8 @@ export const useLogsData = () => {
     hasExpandableRows,
     setLogType,
     openParamOverrideModal,
+    openRequestAuditModal,
+    closeRequestAuditModal,
 
     // Translation
     t,
