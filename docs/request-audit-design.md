@@ -562,3 +562,43 @@ SSE 是这个项目最关键的特殊场景。
 5. 满足 MySQL、SQLite、PostgreSQL 的兼容要求。
 
 如果进入实现阶段，建议先按这个单表方案做最小实现，后续若发现重试明细、超大报文或流式归档能力不足，再升级为更复杂的数据模型。
+
+## 20. 存储膨胀优化与归档方案（Phase 1.5 扩展）
+
+针对 `log_request_audit` 表数据量过大导致数据库膨胀和性能下降的问题，引入独立的“定时归档服务”以及全局控制开关。
+
+### 20.1 配置项扩展
+
+利用现有的 `options` 配置体系（`model/option.go`），新增以下全局配置，可通过管理页面或环境变量动态设置：
+
+1. `RequestAuditEnabled`：审计日志总开关，默认 `true`（开启）。关闭后新请求直接丢弃报文，不存入数据库。
+2. `RequestAuditMaxRows`：触发归档的表行数阈值，默认 `110000`（11万）。
+3. `RequestAuditRetainRows`：归档清理后，数据库内保留的最新记录数，默认 `100000`（10万）。
+4. `RequestAuditArchiveDir`：本地归档文件的保存路径，默认 `/mnt/local/log_request_audit/`。
+
+### 20.2 独立定时归档服务（Timer Service）
+
+因为后端可能多实例部署，避免多个网关节点同时抢占归档任务、重复读写或互相锁表。将归档任务独立为一个新的服务：
+1. **服务入口**：新增 `cmd/timer/main.go` 作为独立服务，与主网关代码复用大部分逻辑，但在容器内使用不同启动命令（例如 `CMD ["/timer"]` 或通过主程序的 `--mode timer` 参数启动）。
+2. **定时触发**：采用 Goroutine 定点轮询，例如每小时执行一次归档检测。
+
+### 20.3 高性能归档策略（防止慢 SQL）
+
+在大数据量下，避免使用 `SELECT COUNT(*)` 和大 `OFFSET` 查询。核心逻辑如下：
+
+1. **近似检测**：通过查询当前表中的 `MAX(id)` 和 `MIN(id)`，或者直接通过主键索引扫描，快速评估当前数据水位是否超过 `RequestAuditMaxRows`。
+2. **分批读取与文件写入**：
+   - 确定需要清理的终止 ID（计算方法：`MAX(id) - RequestAuditRetainRows`）。
+   - 按 ID 升序，使用 `WHERE id > ? AND id <= ? LIMIT 500` 分批次拉取旧数据（每批 500 条）。
+   - 边读边将数据按行序列化为 JSONL（JSON Lines）格式，追加写入到对应日期的文件中，如 `/mnt/local/log_request_audit/audit_2026-04-21.jsonl`。
+3. **安全删除**：
+   - 当一批数据成功 `Sync()` 刷入磁盘后。
+   - 执行按 ID 范围的删除操作：`DELETE FROM log_request_audit WHERE id <= ?`。
+   - 通过分批 DELETE 避免长事务和锁表。
+
+### 20.4 主键防溢出设计
+
+为防止海量写入导致 ID 溢出（传统的 32 位 `INT` 最大为 21 亿）：
+- 需将 `log_request_audit` 表的主键 `id` 字段显式声明为 64 位整型（`int64` 或 `uint64`），并通过 GORM 标签 `gorm:"primaryKey;autoIncrement;type:bigint"` 强制数据库映射为 `BIGINT`。
+- **注意（关于已有表迁移）**：GORM 的 `AutoMigrate` 特性默认**不会**修改已经存在的列的字段类型（为了保护数据安全）。如果用户的 `log_request_audit` 表已经创建且 `id` 是 `INT`，代码层面的修改不会自动触发底层数据库的 DDL 变更。对于旧数据实例，需要用户手动执行 SQL（如 MySQL 下 `ALTER TABLE log_request_audit MODIFY COLUMN id BIGINT AUTO_INCREMENT;`）或在代码中提供显示的数据库迁移脚本。
+- 考虑到数据在不断入库和被 DELETE 清理，自增 ID 会一直增长，使用 `BIGINT` 足以支撑高并发下数百年不溢出。

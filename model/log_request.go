@@ -57,6 +57,9 @@ func (r *LogRequest) BeforeUpdate(_ *gorm.DB) error {
 }
 
 func UpsertLogRequest(record *LogRequest) error {
+	if !common.RequestAuditEnabled {
+		return nil
+	}
 	if record == nil || record.LogID <= 0 {
 		return nil
 	}
@@ -88,6 +91,9 @@ func GetLogRequestByLogID(logID int) (*LogRequest, error) {
 }
 
 func PersistLogRequestFromState(state *common.RequestAuditState) error {
+	if !common.RequestAuditEnabled {
+		return nil
+	}
 	if state == nil || state.IsPersisted() {
 		return nil
 	}
@@ -113,6 +119,9 @@ func PersistLogRequestFromState(state *common.RequestAuditState) error {
 }
 
 func PersistLogRequestFromContext(c *gin.Context) error {
+	if !common.RequestAuditEnabled {
+		return nil
+	}
 	state := common.GetRequestAuditState(c)
 	return PersistLogRequestFromState(state)
 }
